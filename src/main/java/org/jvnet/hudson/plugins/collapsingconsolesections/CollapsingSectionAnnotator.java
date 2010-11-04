@@ -24,6 +24,7 @@
 package org.jvnet.hudson.plugins.collapsingconsolesections;
 
 import hudson.MarkupText;
+import hudson.Util;
 import hudson.console.ConsoleAnnotator;
 import hudson.model.Run;
 import java.util.Arrays;
@@ -55,7 +56,7 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Run> {
         for (SectionDefinition section : sections) {
             Matcher m = section.getSectionStartPattern().matcher(text.getText().trim());
             if (m.matches()) {
-                text.addMarkup(0, "<div class=\"collapseHeader\">" + section.getSectionDisplayName(m) + "<div class=\"collapseAction\"><p onClick=\"doToggle(this)\">Hide Details</p></div></div><div class=\"expanded\">");
+                text.addMarkup(0, "<div class=\"collapseHeader\">" + Util.escape(section.getSectionDisplayName(m)) + "<div class=\"collapseAction\"><p onClick=\"doToggle(this)\">Hide Details</p></div></div><div class=\"expanded\">");
                 currentSections.push(section);
             }
         }
