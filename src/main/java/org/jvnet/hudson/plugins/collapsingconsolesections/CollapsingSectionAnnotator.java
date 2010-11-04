@@ -29,6 +29,7 @@ import hudson.model.Run;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
+import java.util.regex.Matcher;
 
 public class CollapsingSectionAnnotator extends ConsoleAnnotator<Run> {
     private List<SectionDefinition> sections;
@@ -52,8 +53,9 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Run> {
         }
 
         for (SectionDefinition section : sections) {
-            if (section.getSectionStartPattern().matcher(text.getText().trim()).matches()) {
-                text.addMarkup(0, "<div class=\"collapseHeader\">" + section.getSectionDisplayName() + "<div class=\"collapseAction\"><p onClick=\"doToggle(this)\">Hide Details</p></div></div><div class=\"expanded\">");
+            Matcher m = section.getSectionStartPattern().matcher(text.getText().trim());
+            if (m.matches()) {
+                text.addMarkup(0, "<div class=\"collapseHeader\">" + section.getSectionDisplayName(m) + "<div class=\"collapseAction\"><p onClick=\"doToggle(this)\">Hide Details</p></div></div><div class=\"expanded\">");
                 currentSections.push(section);
             }
         }

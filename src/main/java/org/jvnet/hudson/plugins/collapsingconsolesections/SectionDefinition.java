@@ -24,6 +24,7 @@
 package org.jvnet.hudson.plugins.collapsingconsolesections;
 
 import java.io.Serializable;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -43,6 +44,22 @@ public class SectionDefinition implements Serializable {
 
     public String getSectionDisplayName() {
         return name;
+    }
+
+    public String getSectionDisplayName(Matcher m) {
+        @SuppressWarnings("RedundantStringConstructorCall")
+        String result = new String(name);
+
+        if (m.matches()) {
+            for (int i = 0; i <= m.groupCount(); i++) {
+                String group = m.group(i);
+                if (group != null) {
+                    result = result.replaceAll("\\{" + i + "\\}", group);
+                }
+            }
+        }
+
+        return result;
     }
 
     public Pattern getSectionStartPattern() {
