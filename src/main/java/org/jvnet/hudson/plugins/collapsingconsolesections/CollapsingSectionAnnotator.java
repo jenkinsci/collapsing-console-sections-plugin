@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Stack;
 import java.util.regex.Matcher;
 
-public class CollapsingSectionAnnotator extends ConsoleAnnotator<Run> {
+public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
     private List<SectionDefinition> sections;
     private Stack<SectionDefinition> currentSections;
 
@@ -42,7 +42,11 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Run> {
     }
     
     @Override
-    public ConsoleAnnotator annotate(Run context, MarkupText text) {
+    public ConsoleAnnotator annotate(Object context, MarkupText text) {
+        if (!(context instanceof Run)) {
+            return null;
+        }
+        
         while (!currentSections.empty()) {
             SectionDefinition currentSection = currentSections.peek();
             if (currentSection.getSectionEndPattern().matcher(text.getText().trim()).matches()) {
