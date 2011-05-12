@@ -49,12 +49,13 @@ public class SectionDefinition implements Serializable {
     public String getSectionDisplayName(Matcher m) {
         @SuppressWarnings("RedundantStringConstructorCall")
         String result = new String(name);
-
         if (m.matches()) {
             for (int i = 0; i <= m.groupCount(); i++) {
-                String group = m.group(i);
+                final String group = m.group(i);
                 if (group != null) {
                     result = result.replaceAll("\\{" + i + "\\}", group);
+                } else {
+                    result = result.replaceAll("\\{" + i + "\\}", "");
                 }
             }
         }
