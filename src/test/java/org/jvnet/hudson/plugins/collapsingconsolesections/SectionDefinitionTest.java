@@ -32,6 +32,19 @@ import static org.junit.Assert.*;
  * @author dty
  */
 public class SectionDefinitionTest {
+    /**
+     *
+     */
+    private static final String MAVEN_SECTION_NAME = "{3}{5}:{7}";
+    /**
+     *
+     */
+    private static final String MAVEN_PLUGIN_SECTION_END_PATTERN = "^\\[INFO\\] $";
+    /**
+     *
+     */
+    private static final String MAVEN_PLUGIN_SECTION_START_PATTERN = "\\[INFO\\] --- ((maven-([a-z]*)-plugin)|(([a-z]*)-maven-plugin)):([^:]*):([^ ]*) (.*)---";
+
     @Test
     public void testSectionDisplayNameWithGroupCapture() throws Exception {
         SectionDefinition def = new SectionDefinition("Section Heading", "Updating.+", "At revision \\d+.+");
@@ -53,5 +66,22 @@ public class SectionDefinitionTest {
         def = new SectionDefinition("Section Heading {1} {2} {1}", "Updating (.+)://(.+)/svn/hudson/trunk/hudson.+", "At revision \\d+.+");
         m = def.getSectionStartPattern().matcher("Updating https://svn.dev.java.net/svn/hudson/trunk/hudson/plugins/collapsing-console-sections");
         assertEquals("Section Heading https svn.dev.java.net https", def.getSectionDisplayName(m));
+    }
+
+    @Test
+    public void testMavenPluginDefinition() {
+        testMavenMojoPlugin("[INFO] --- maven-jar-plugin:2.3.1:jar (default-jar) @ sardine ---", "jar:jar");
+        testMavenMojoPlugin("[INFO] --- cobertura-maven-plugin:2.4:instrument (report:cobertura) @ sardine ---", "cobertura:instrument");
+    }
+
+    /**
+     * @param haystack
+     * @param expected
+     * @return
+     */
+    void testMavenMojoPlugin(final String haystack, final String expected) {
+        final SectionDefinition  def = new SectionDefinition(MAVEN_SECTION_NAME, MAVEN_PLUGIN_SECTION_START_PATTERN, MAVEN_PLUGIN_SECTION_END_PATTERN);
+        final Matcher m = def.getSectionStartPattern().matcher(haystack);
+        assertEquals(expected, def.getSectionDisplayName(m));
     }
 }
