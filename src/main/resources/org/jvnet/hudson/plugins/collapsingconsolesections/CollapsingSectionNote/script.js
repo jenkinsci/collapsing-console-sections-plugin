@@ -10,14 +10,14 @@ function doToggle(o)
             o.innerHTML = "Show Details";
         }
     } else {
-	    if (section.nextSibling.className == "collapsed") {
+	if (section.nextSibling.className == "collapsed") {
             section.nextSibling.className = "expanded";
             o.innerHTML = "Hide Details";
         } else {
             section.nextSibling.className = "collapsed";
             o.innerHTML = "Show Details";
-        }
-	}	
+       }
+    }
 }
 
 (function() {
@@ -94,13 +94,9 @@ function doToggle(o)
             var id = "console-section-"+(iota++);
             outline.appendChild(parseHtml("<li><a href='#"+id+"'>"+e.childNodes[0].data+"</a></li>"))
 
-            if (document.all)
-                e.innerHTML = '<a name="' + id + '"/>' + e.innerHtml;  // IE8 loses "name" attr in appendChild
-            else {
-                var a = document.createElement("a");
-                a.setAttribute("name",id);
-                e.parentNode.insertBefore(a, e);
-            }
+            var a = document.createElement("a");
+            a.setAttribute("name",id);
+            e.parentNode.insertBefore(a, e);
         }
     }
 
