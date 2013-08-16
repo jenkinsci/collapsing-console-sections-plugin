@@ -35,6 +35,7 @@ import java.util.regex.Matcher;
 public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
     private List<SectionDefinition> sections;
     private Stack<SectionDefinition> currentSections;
+    private static final String LEVEL_MARKER="- ";
 
     public CollapsingSectionAnnotator(SectionDefinition... sections) {
         this.sections = Arrays.asList(sections);
@@ -60,11 +61,22 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
         for (SectionDefinition section : sections) {
             Matcher m = section.getSectionStartPattern().matcher(text.getText().trim());
             if (m.matches()) {
-                text.addMarkup(0, "<div class=\"collapseHeader\">" + Util.escape(section.getSectionDisplayName(m)) + "<div class=\"collapseAction\"><p onClick=\"doToggle(this)\">Hide Details</p></div></div><div class=\"expanded\">");
+                text.addMarkup(0, "<div class=\"collapseHeader\">" + getCurrentLevelPrefix() + Util.escape(section.getSectionDisplayName(m)) + "<div class=\"collapseAction\"><p onClick=\"doToggle(this)\">Hide Details</p></div></div><div class=\"expanded\">");
                 currentSections.push(section);
             }
         }
-
         return this;
+    }
+    
+    /**
+     * Generates level prefix for further display.
+     * @return LEVEL_MARKER for each upper level
+     */
+    private String getCurrentLevelPrefix() {
+        String str="";
+        for (int i=0; i<currentSections.size(); i++) {
+            str += LEVEL_MARKER;
+        }
+        return str;
     }
 }
