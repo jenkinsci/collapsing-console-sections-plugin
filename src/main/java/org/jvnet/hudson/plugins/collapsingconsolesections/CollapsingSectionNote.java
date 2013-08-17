@@ -42,12 +42,14 @@ public class CollapsingSectionNote extends ConsoleNote {
     private String sectionDisplayName;
     private String sectionStartPattern;
     private String sectionEndPattern;
+    private boolean collapseOnlyOneLevel;
     
     @DataBoundConstructor
-    public CollapsingSectionNote(String sectionDisplayName, String sectionStartPattern, String sectionEndPattern) {
+    public CollapsingSectionNote(String sectionDisplayName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel) {
         this.sectionDisplayName = sectionDisplayName;
         this.sectionStartPattern = sectionStartPattern;
         this.sectionEndPattern = sectionEndPattern;
+        this.collapseOnlyOneLevel = collapseOnlyOneLevel;
     }
 
     public String getSectionDisplayName() {
@@ -62,8 +64,12 @@ public class CollapsingSectionNote extends ConsoleNote {
         return sectionEndPattern;
     }
 
+    public boolean isCollapseOnlyOneLevel() {
+        return collapseOnlyOneLevel;
+    }
+    
     public SectionDefinition getDefinition() {
-        return new SectionDefinition(sectionDisplayName, sectionStartPattern, sectionEndPattern);
+        return new SectionDefinition(sectionDisplayName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel);
     }
     
     @Override

@@ -28,6 +28,7 @@ THE SOFTWARE.
     <f:entry title="${%Sections numbering}" field="numberingEnabled">
         <f:checkbox title="${%Enable sections numbering}" checked="${descriptor.numberingEnabled}"/>
     </f:entry>
+    
     <f:entry title="${%Console Sections}">
       <f:repeatable name="consolesection" var="instance" items="${descriptor.sections}"
                     add="Add ${descriptor.displayName}" header="${descriptor.displayName}">
@@ -41,7 +42,9 @@ THE SOFTWARE.
             <f:entry title="${%Section ends with}" field="sectionEndPattern">
                 <f:textbox />
             </f:entry>
-
+            <f:entry title="${%Collapsing}" field="collapseOnlyOneLevel">
+                <f:checkbox title="${%Collapse only one level per ending string}" checked="${instance.collapseOnlyOneLevel}"/>
+            </f:entry>
           <f:entry title="">
             <div align="right">
               <f:repeatableDeleteButton value="Delete ${descriptor.displayName}"/>

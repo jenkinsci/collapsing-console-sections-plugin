@@ -52,11 +52,16 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
             return null;
         }
         
-        if (!currentSections.empty()) {
+        while (!currentSections.empty()) {
             SectionDefinition currentSection = currentSections.peek();
             if (currentSection.getSectionEndPattern().matcher(text.getText().trim()).matches()) {
                 popSection(text);
-            } 
+                if (currentSection.isCollapseOnlyOneLevel()) {
+                    break;
+                }
+            } else {
+                break;
+            }
         }
 
         for (SectionDefinition section : sections) {
