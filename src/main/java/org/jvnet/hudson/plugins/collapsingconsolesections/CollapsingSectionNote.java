@@ -75,6 +75,7 @@ public class CollapsingSectionNote extends ConsoleNote {
     @Extension
     public static final class DescriptorImpl extends ConsoleAnnotationDescriptor {
         private CollapsingSectionNote[] sections;
+        private boolean numberingEnabled;
 
         public DescriptorImpl() {
             load();
@@ -106,12 +107,16 @@ public class CollapsingSectionNote extends ConsoleNote {
         public void setSections(CollapsingSectionNote... sections) {
             this.sections = sections.clone();
         }
+
+        public boolean isNumberingEnabled() {
+            return numberingEnabled;
+        }
         
         @Override
         @SuppressWarnings("unchecked") // cast to T[]
         public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
             setSections(req.bindJSONToList(clazz, json.get("consolesection")).toArray((CollapsingSectionNote[]) Array.newInstance(clazz, 0)));
-
+            numberingEnabled = json.getBoolean("numberingEnabled");
             save();
             
             return true;

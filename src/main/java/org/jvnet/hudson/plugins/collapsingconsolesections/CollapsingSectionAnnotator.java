@@ -36,9 +36,11 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
     private List<SectionDefinition> sections;
     private Stack<SectionDefinition> currentSections;
     private Stack<StackLevel> numberingStack;
+    private CollapsingSectionNote.DescriptorImpl configs;
 
-    public CollapsingSectionAnnotator(SectionDefinition... sections) {
-        this.sections = Arrays.asList(sections);
+    public CollapsingSectionAnnotator(CollapsingSectionNote.DescriptorImpl configs) {
+        this.configs = configs;
+        this.sections = Arrays.asList(configs.getSectionDefinitions());       
         this.currentSections = new Stack<SectionDefinition>();
         this.numberingStack = new Stack<StackLevel>();
         numberingStack.add(new StackLevel());
@@ -72,10 +74,14 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
      */
     private String getCurrentLevelPrefix() {
         String str="";
-        for (int i=0; i<currentSections.size()+1; i++) {
-            str += numberingStack.get(i).getCounter()+".";
+                   
+        if (configs.isNumberingEnabled()) {
+            for (int i=0; i<currentSections.size()+1; i++) {
+                str += numberingStack.get(i).getCounter()+".";
+            }
+            str += " ";
         }
-        return str + " ";
+        return str;
     }
     
     private void pushSection(MarkupText text, Matcher m, SectionDefinition section) {

@@ -25,6 +25,9 @@ THE SOFTWARE.
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
   <f:section title="${%Collapsing Console Sections}">
+    <f:entry title="${%Sections numbering}" field="numberingEnabled">
+        <f:checkbox title="${%Enable sections numbering}" checked="${descriptor.numberingEnabled}"/>
+    </f:entry>
     <f:entry title="${%Console Sections}">
       <f:repeatable name="consolesection" var="instance" items="${descriptor.sections}"
                     add="Add ${descriptor.displayName}" header="${descriptor.displayName}">
@@ -46,8 +49,8 @@ THE SOFTWARE.
           </f:entry>
         </table>
       </f:repeatable>
-    </f:entry>
+    </f:entry>   
   </f:section>
-
+ 
     <f:section title="" />
 </j:jelly>
