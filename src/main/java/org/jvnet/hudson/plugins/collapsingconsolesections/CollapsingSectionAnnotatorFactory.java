@@ -36,11 +36,11 @@ import hudson.model.Hudson;
 public class CollapsingSectionAnnotatorFactory extends ConsoleAnnotatorFactory {
     @Override
     public ConsoleAnnotator newInstance(Object context) {
-        SectionDefinition[] defs = Hudson.getInstance().getDescriptorByType(CollapsingSectionNote.DescriptorImpl.class).getSectionDefinitions();
-        if (defs.length == 0) {
+        CollapsingSectionNote.DescriptorImpl descr = Hudson.getInstance().getDescriptorByType(CollapsingSectionNote.DescriptorImpl.class);
+        if (descr.getSectionDefinitions().length == 0) {
             return null;
         }
 
-        return new CollapsingSectionAnnotator(defs);
+        return new CollapsingSectionAnnotator(descr);
     }
 }
