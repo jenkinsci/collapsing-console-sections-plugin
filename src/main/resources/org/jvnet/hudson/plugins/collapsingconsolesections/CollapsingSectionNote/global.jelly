@@ -42,7 +42,7 @@ THE SOFTWARE.
             <f:entry title="${%Section ends with}" field="sectionEndPattern">
                 <f:textbox />
             </f:entry>
-            <f:entry title="${%Collapsing}" field="collapseOnlyOneLevel">
+            <f:entry title="${%One-per-line ending}" field="collapseOnlyOneLevel">
                 <f:checkbox title="${%Collapse only one level per ending string}" checked="${instance.collapseOnlyOneLevel}"/>
             </f:entry>
           <f:entry title="">
