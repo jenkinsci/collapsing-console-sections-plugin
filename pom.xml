@@ -102,6 +102,12 @@ THE SOFTWARE.
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -153,7 +159,7 @@ THE SOFTWARE.
                     <version>2.0-beta-2</version>
                 </plugin>
             </plugins>
-        </pluginManagement>
+        </pluginManagement>       
     </build>
 
     <repositories>
@@ -175,6 +181,13 @@ THE SOFTWARE.
         <developerConnection>scm:git:ssh://git@github.com/jenkinsci/${project.artifactId}-plugin.git</developerConnection>
         <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
     </scm>
+    
+    <distributionManagement>
+        <repository>
+            <id>maven.jenkins-ci.org</id>
+            <url>http://maven.jenkins-ci.org:8081/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
 </project>  
   
 
