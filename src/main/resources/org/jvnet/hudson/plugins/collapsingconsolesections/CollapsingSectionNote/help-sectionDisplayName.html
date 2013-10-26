@@ -1,3 +1,17 @@
 <div>
     Provide a string that will be displayed in the section header, and in the left-side section navigator.
+    <br/>
+    When viewing a build console, a heading will be placed above a line that matches this regex. 
+    The visibility of all console output between this line and the next line that 
+    matches the ending pattern can be toggled by clicking the Show/Hide action in the heading. 
+    <ul>
+        <li>Sections can be nested</li>
+        <li>You can use {N} in order to extract Section name from the Regex. Example:
+            <ul>
+                <li>Section name: <i>Section {2}</i></li>
+                <li>Section starts from: <i>^\#(BEGIN SECTION)\s+(\w+)\#$</i></li>
+                <li>In this example name will be extracted from the third word in the first section line</li>
+            </ul>
+        </li>
+    </ul>
 </div>

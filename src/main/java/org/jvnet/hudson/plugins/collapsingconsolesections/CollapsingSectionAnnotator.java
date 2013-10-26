@@ -35,10 +35,15 @@ import java.util.regex.Matcher;
 public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
     private List<SectionDefinition> sections;
     private Stack<SectionDefinition> currentSections;
+    private Stack<StackLevel> numberingStack;
+    private CollapsingSectionNote.DescriptorImpl configs;
 
-    public CollapsingSectionAnnotator(SectionDefinition... sections) {
-        this.sections = Arrays.asList(sections);
+    public CollapsingSectionAnnotator(CollapsingSectionNote.DescriptorImpl configs) {
+        this.configs = configs;
+        this.sections = Arrays.asList(configs.getSectionDefinitions());       
         this.currentSections = new Stack<SectionDefinition>();
+        this.numberingStack = new Stack<StackLevel>();
+        numberingStack.add(new StackLevel());
     }
     
     @Override
@@ -50,8 +55,10 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
         while (!currentSections.empty()) {
             SectionDefinition currentSection = currentSections.peek();
             if (currentSection.getSectionEndPattern().matcher(text.getText().trim()).matches()) {
-                text.addMarkup(text.getText().length(), "</div>");
-                currentSections.pop();
+                popSection(text);
+                if (currentSection.isCollapseOnlyOneLevel()) {
+                    break;
+                }
             } else {
                 break;
             }
@@ -60,11 +67,51 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
         for (SectionDefinition section : sections) {
             Matcher m = section.getSectionStartPattern().matcher(text.getText().trim());
             if (m.matches()) {
-                text.addMarkup(0, "<div class=\"collapseHeader\">" + Util.escape(section.getSectionDisplayName(m)) + "<div class=\"collapseAction\"><p onClick=\"doToggle(this)\">Hide Details</p></div></div><div class=\"expanded\">");
-                currentSections.push(section);
+                pushSection(text, m, section);
             }
         }
-
         return this;
+    }
+    
+    /**
+     * Generates level prefix for further display.
+     * @return LEVEL_MARKER for each upper level
+     */
+    private String getCurrentLevelPrefix() {
+        String str="";
+                   
+        if (configs.isNumberingEnabled()) {
+            for (int i=0; i<currentSections.size()+1; i++) {
+                str += numberingStack.get(i).getCounter()+".";
+            }
+            str += " ";
+        }
+        return str;
+    }
+    
+    private void pushSection(MarkupText text, Matcher m, SectionDefinition section) {
+        numberingStack.peek().increment();  
+        text.addMarkup(0, "<div class=\"collapseHeader\">" + getCurrentLevelPrefix() + Util.escape(section.getSectionDisplayName(m)) + "<div class=\"collapseAction\"><p onClick=\"doToggle(this)\">Hide Details</p></div></div><div class=\"expanded\">");        
+        numberingStack.add(new StackLevel());
+        currentSections.push(section);
+    }
+    
+    private void popSection(MarkupText text) {
+        text.addMarkup(text.getText().length(), "</div>");
+        currentSections.pop();
+        numberingStack.pop();
+    }
+    
+    /**Enumerates stack levels for the numbering*/
+    private static class StackLevel {
+        int counter = 0;
+        
+        public void increment() {
+            counter++;
+        }
+
+        public int getCounter() {
+            return counter;
+        }    
     }
 }
