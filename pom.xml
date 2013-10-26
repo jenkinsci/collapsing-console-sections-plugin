@@ -33,7 +33,7 @@ THE SOFTWARE.
     </parent>
 
     <artifactId>collapsing-console-sections</artifactId>
-    <version>1.4</version>
+    <version>1.5-SNAPSHOT</version>
     <packaging>hpi</packaging>
 
     <name>Hudson Collapsing Console Sections Plugin</name>
