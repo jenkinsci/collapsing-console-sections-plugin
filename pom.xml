@@ -38,12 +38,14 @@ THE SOFTWARE.
 
     <name>Hudson Collapsing Console Sections Plugin</name>
     <description>Annotations to collapse sections of the build console</description>
-    <url>http://wiki.hudson-ci.org/display/HUDSON/Collapsing+Console+Sections+Plugin</url>
+    <url>https://wiki.jenkins-ci.org/display/JENKINS/Collapsing+Console+Sections+Plugin</url>
 
     <licenses>
         <license>
             <name>MIT license</name>
             <comments>All source code is under the MIT license.</comments>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
@@ -51,6 +53,17 @@ THE SOFTWARE.
         <developer>
             <id>dty</id>
             <name>Dean Yu</name>
+        </developer>
+        <developer>
+            <id>oleg_nenashev</id>
+            <name>Oleg Nenashev</name>
+            <email>nenashev@synopsys.com; o.v.nenashev@gmail.com</email>
+            <organizationUrl>http://www.synopsys.com</organizationUrl>
+            <organization>Synopsys Inc.</organization>              			
+            <roles>
+                <role>maintainer</role>
+            </roles>
+            <timezone>+4</timezone>
         </developer>
     </developers>
 
@@ -156,6 +169,12 @@ THE SOFTWARE.
             <url>http://repo.jenkins-ci.org/public/</url>
         </pluginRepository>
     </pluginRepositories>
+    
+    <scm>
+        <connection>scm:git:ssh://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/${project.artifactId}-plugin.git</developerConnection>
+        <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
+    </scm>
 </project>  
   
 
