@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2010, Yahoo! Inc. and contributors
+ * Copyright 2013 Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,24 +23,26 @@
  */
 package org.jvnet.hudson.plugins.collapsingconsolesections;
 
-import hudson.Extension;
-import hudson.console.ConsoleAnnotator;
-import hudson.console.ConsoleAnnotatorFactory;
-import hudson.model.Hudson;
+import org.apache.commons.lang.SerializationUtils;
+import org.junit.Test;
+import org.jvnet.hudson.test.Bug;
 
 /**
- *
- * @author dty
+ * Tests {@linl CollapsingSectionAnnotator}
+ * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
  */
-@Extension
-public class CollapsingSectionAnnotatorFactory extends ConsoleAnnotatorFactory {
-    @Override
-    public ConsoleAnnotator newInstance(Object context) {
-        CollapsingSectionNote.DescriptorImpl descr = Hudson.getInstance().getDescriptorByType(CollapsingSectionNote.DescriptorImpl.class);
-        if (descr.getSectionDefinitions().length == 0) {
-            return null;
-        }
-
-        return new CollapsingSectionAnnotator(descr.getConfiguration());
+public class CollapsingSectionAnnotatorTest {
+    @Test
+    @Bug(20304)
+    public void testSerialization() {
+        // Prepare data
+        CollapsingSectionsConfiguration config = new CollapsingSectionsConfiguration(
+                new CollapsingSectionNote[] {
+                  new CollapsingSectionNote("test", "test", "test", true)}
+                ,true);
+        CollapsingSectionAnnotator annotator = new CollapsingSectionAnnotator(config);
+        
+        // Try to serialize
+        SerializationUtils.serialize(annotator);
     }
 }
