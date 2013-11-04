@@ -30,6 +30,7 @@ import org.jvnet.hudson.test.Bug;
 /**
  * Tests {@linl CollapsingSectionAnnotator}
  * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
+ * @since 1.4.1
  */
 public class CollapsingSectionAnnotatorTest {
     @Test

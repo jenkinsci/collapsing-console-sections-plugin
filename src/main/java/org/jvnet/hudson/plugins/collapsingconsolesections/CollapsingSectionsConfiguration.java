@@ -30,6 +30,7 @@ import java.util.ArrayList;
 /**
  * Provides a serializable instance of collapsing sections global configs. 
  * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
+ * @since 1.4.1
  */
 public class CollapsingSectionsConfiguration implements Serializable {
     private final CollapsingSectionNote[] sections;
