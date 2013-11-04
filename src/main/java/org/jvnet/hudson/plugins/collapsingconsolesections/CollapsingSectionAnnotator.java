@@ -27,6 +27,7 @@ import hudson.MarkupText;
 import hudson.Util;
 import hudson.console.ConsoleAnnotator;
 import hudson.model.Run;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
@@ -36,9 +37,9 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
     private List<SectionDefinition> sections;
     private Stack<SectionDefinition> currentSections;
     private Stack<StackLevel> numberingStack;
-    private CollapsingSectionNote.DescriptorImpl configs;
+    private CollapsingSectionsConfiguration configs;
 
-    public CollapsingSectionAnnotator(CollapsingSectionNote.DescriptorImpl configs) {
+    public CollapsingSectionAnnotator(CollapsingSectionsConfiguration configs) {
         this.configs = configs;
         this.sections = Arrays.asList(configs.getSectionDefinitions());       
         this.currentSections = new Stack<SectionDefinition>();
@@ -103,7 +104,7 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
     }
     
     /**Enumerates stack levels for the numbering*/
-    private static class StackLevel {
+    private static class StackLevel implements Serializable {
         int counter = 0;
         
         public void increment() {

@@ -29,7 +29,6 @@ import hudson.console.ConsoleAnnotationDescriptor;
 import hudson.console.ConsoleAnnotator;
 import hudson.console.ConsoleNote;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
@@ -82,6 +81,7 @@ public class CollapsingSectionNote extends ConsoleNote {
     public static final class DescriptorImpl extends ConsoleAnnotationDescriptor {
         private CollapsingSectionNote[] sections;
         private boolean numberingEnabled;
+        private transient CollapsingSectionsConfiguration configuration;
 
         public DescriptorImpl() {
             load();
@@ -100,14 +100,7 @@ public class CollapsingSectionNote extends ConsoleNote {
         }
 
         public SectionDefinition[] getSectionDefinitions() {
-            CollapsingSectionNote[] configs = getSections();
-            ArrayList<SectionDefinition> defs = new ArrayList<SectionDefinition>();
-
-            for (CollapsingSectionNote config : configs) {
-                defs.add(config.getDefinition());
-            }
-            
-            return defs.toArray((SectionDefinition[]) Array.newInstance(SectionDefinition.class, 0));
+            return configuration.getSectionDefinitions();
         }
 
         public void setSections(CollapsingSectionNote... sections) {
@@ -118,11 +111,23 @@ public class CollapsingSectionNote extends ConsoleNote {
             return numberingEnabled;
         }
         
+        public CollapsingSectionsConfiguration getConfiguration() {
+            return configuration;
+        }
+
+        @Override
+        public synchronized void load() {
+            super.load();
+            // Enable configuration cache
+            configuration = new CollapsingSectionsConfiguration(sections, numberingEnabled);
+        }
+          
         @Override
         @SuppressWarnings("unchecked") // cast to T[]
         public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
             setSections(req.bindJSONToList(clazz, json.get("consolesection")).toArray((CollapsingSectionNote[]) Array.newInstance(clazz, 0)));
             numberingEnabled = json.getBoolean("numberingEnabled");
+            configuration = new CollapsingSectionsConfiguration(sections, numberingEnabled);
             save();
             
             return true;
