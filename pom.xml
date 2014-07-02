@@ -36,7 +36,7 @@ THE SOFTWARE.
     <version>1.4.2-SNAPSHOT</version>
     <packaging>hpi</packaging>
 
-    <name>Hudson Collapsing Console Sections Plugin</name>
+    <name>Jenkins Collapsing Console Sections Plugin</name>
     <description>Annotations to collapse sections of the build console</description>
     <url>https://wiki.jenkins-ci.org/display/JENKINS/Collapsing+Console+Sections+Plugin</url>
 
