@@ -57,7 +57,7 @@ public class SectionDefinition implements Serializable {
 
     public String getSectionDisplayName(Matcher m) {
         @SuppressWarnings("RedundantStringConstructorCall")
-        String result = new String(name);
+        String result = name;
         if (m.matches()) {
             for (int i = 0; i <= m.groupCount(); i++) {
                 final String group = m.group(i);

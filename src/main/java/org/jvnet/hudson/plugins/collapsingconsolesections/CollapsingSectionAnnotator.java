@@ -79,15 +79,15 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
      * @return LEVEL_MARKER for each upper level
      */
     private String getCurrentLevelPrefix() {
-        String str="";
-                   
+        StringBuilder str= new StringBuilder();
         if (configs.isNumberingEnabled()) {
             for (int i=0; i<currentSections.size()+1; i++) {
-                str += numberingStack.get(i).getCounter()+".";
+                str.append(numberingStack.get(i).getCounter());
+                str.append(".");
             }
-            str += " ";
+            str.append(' ');
         }
-        return str;
+        return str.toString();
     }
     
     private void pushSection(MarkupText text, Matcher m, SectionDefinition section) {
