@@ -15,7 +15,7 @@ div.collapseAction {
     text-decoration: underline;
     margin-left: 5px;
     margin-bottom: -7px;
-    cursor: hand;
+    cursor: pointer;
 }
 
 div.expanded {
