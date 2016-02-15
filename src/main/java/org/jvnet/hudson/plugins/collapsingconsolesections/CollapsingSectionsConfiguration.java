@@ -37,7 +37,7 @@ public class CollapsingSectionsConfiguration implements Serializable {
     private final boolean numberingEnabled;
    
     public CollapsingSectionsConfiguration(CollapsingSectionNote[] sections, boolean numberingEnabled) {
-        this.sections = sections;
+        this.sections = sections != null ? sections : new CollapsingSectionNote[]{} ;
         this.numberingEnabled = numberingEnabled;
     }
 
