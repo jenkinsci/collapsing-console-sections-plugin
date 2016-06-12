@@ -26,6 +26,7 @@ package org.jvnet.hudson.plugins.collapsingconsolesections;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Provides a serializable instance of collapsing sections global configs. 
@@ -37,7 +38,7 @@ public class CollapsingSectionsConfiguration implements Serializable {
     private final boolean numberingEnabled;
    
     public CollapsingSectionsConfiguration(CollapsingSectionNote[] sections, boolean numberingEnabled) {
-        this.sections = sections;
+        this.sections = sections != null ? Arrays.copyOf(sections, sections.length) : new CollapsingSectionNote[0];
         this.numberingEnabled = numberingEnabled;
     }
 
@@ -46,7 +47,7 @@ public class CollapsingSectionsConfiguration implements Serializable {
     }
 
     public CollapsingSectionNote[] getSections() {
-        return sections;
+        return sections != null ? Arrays.copyOf(sections, sections.length) : new CollapsingSectionNote[0];
     }
     
     public SectionDefinition[] getSectionDefinitions() {
