@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2013 Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
+ * Copyright 2013 Oleg Nenashev, Synopsys Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,10 +26,11 @@ package org.jvnet.hudson.plugins.collapsingconsolesections;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Provides a serializable instance of collapsing sections global configs. 
- * @author Oleg Nenashev <nenashev@synopsys.com>, Synopsys Inc.
+ * @author Oleg Nenashev
  * @since 1.4.1
  */
 public class CollapsingSectionsConfiguration implements Serializable {
@@ -37,7 +38,7 @@ public class CollapsingSectionsConfiguration implements Serializable {
     private final boolean numberingEnabled;
    
     public CollapsingSectionsConfiguration(CollapsingSectionNote[] sections, boolean numberingEnabled) {
-        this.sections = sections;
+        this.sections = sections != null ? Arrays.copyOf(sections, sections.length) : new CollapsingSectionNote[0];
         this.numberingEnabled = numberingEnabled;
     }
 
@@ -46,7 +47,7 @@ public class CollapsingSectionsConfiguration implements Serializable {
     }
 
     public CollapsingSectionNote[] getSections() {
-        return sections;
+        return sections != null ? Arrays.copyOf(sections, sections.length) : new CollapsingSectionNote[0];
     }
     
     public SectionDefinition[] getSectionDefinitions() {
