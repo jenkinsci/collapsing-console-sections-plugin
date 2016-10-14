@@ -54,7 +54,9 @@ function doToggle(o)
             var offsets = getoffsets(d);
             var floatSection = d.childNodes[0];
 
-            if (offsets.y - window.scrollY <= 5) {
+            // if the height of the floatSection exceeds the window then keep it attached
+            // detached would make some items inaccessible
+            if (offsets.y - window.scrollY <= 5 && floatSection.offsetHeight <= window.innerHeight) {
                 if (floatSection.className != "scrollDetached") {
                     floatSection.className = "scrollDetached";
                     floatSection.style.width = d.offsetWidth;
