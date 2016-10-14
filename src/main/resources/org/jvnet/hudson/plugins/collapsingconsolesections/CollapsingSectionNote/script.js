@@ -59,7 +59,7 @@ function doToggle(o)
             if (offsets.y - window.scrollY <= 5 && floatSection.offsetHeight <= window.innerHeight) {
                 if (floatSection.className != "scrollDetached") {
                     floatSection.className = "scrollDetached";
-                    floatSection.style.width = d.offsetWidth;
+                    floatSection.style.width = d.offsetWidth + "px";
                 }
 
                 floatSection.style["left"] = -window.scrollX + offsets.x + "px";
