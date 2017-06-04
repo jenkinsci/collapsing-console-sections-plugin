@@ -54,11 +54,7 @@ public class CollapsingSectionNote extends ConsoleNote {
     }
 
     public CollapsingSectionNote(String sectionDisplayName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel) {
-        this.sectionDisplayName = sectionDisplayName;
-        this.sectionStartPattern = sectionStartPattern;
-        this.sectionEndPattern = sectionEndPattern;
-        this.collapseOnlyOneLevel = collapseOnlyOneLevel;
-        this.collapseSection = false;
+        this(sectionDisplayName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, false);
     }
 
     public String getSectionDisplayName() {
@@ -73,9 +69,10 @@ public class CollapsingSectionNote extends ConsoleNote {
         return sectionEndPattern;
     }
 
-    public boolean getCollapseSection() {
+    public boolean isCollapseSection() {
         return collapseSection;
     }
+
     public boolean isCollapseOnlyOneLevel() {
         return collapseOnlyOneLevel;
     }
