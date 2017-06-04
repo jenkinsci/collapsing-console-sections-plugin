@@ -42,13 +42,23 @@ public class CollapsingSectionNote extends ConsoleNote {
     private String sectionStartPattern;
     private String sectionEndPattern;
     private boolean collapseOnlyOneLevel;
-    
+    private boolean collapseSection;
+
     @DataBoundConstructor
+    public CollapsingSectionNote(String sectionDisplayName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel, boolean collapseSection) {
+        this.sectionDisplayName = sectionDisplayName;
+        this.sectionStartPattern = sectionStartPattern;
+        this.sectionEndPattern = sectionEndPattern;
+        this.collapseOnlyOneLevel = collapseOnlyOneLevel;
+        this.collapseSection = collapseSection;
+    }
+
     public CollapsingSectionNote(String sectionDisplayName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel) {
         this.sectionDisplayName = sectionDisplayName;
         this.sectionStartPattern = sectionStartPattern;
         this.sectionEndPattern = sectionEndPattern;
         this.collapseOnlyOneLevel = collapseOnlyOneLevel;
+        this.collapseSection = false;
     }
 
     public String getSectionDisplayName() {
@@ -63,14 +73,17 @@ public class CollapsingSectionNote extends ConsoleNote {
         return sectionEndPattern;
     }
 
+    public boolean getCollapseSection() {
+        return collapseSection;
+    }
     public boolean isCollapseOnlyOneLevel() {
         return collapseOnlyOneLevel;
     }
-    
+
     public SectionDefinition getDefinition() {
-        return new SectionDefinition(sectionDisplayName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel);
+        return new SectionDefinition(sectionDisplayName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, collapseSection);
     }
-    
+
     @Override
     public ConsoleAnnotator annotate(Object context, MarkupText text, int charPos) {
         return null;
