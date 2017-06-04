@@ -92,7 +92,7 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
     
     private void pushSection(MarkupText text, Matcher m, SectionDefinition section) {
         numberingStack.peek().increment();  
-        text.addMarkup(0, "<div class=\"collapseHeader\">" + getCurrentLevelPrefix() + Util.escape(section.getSectionDisplayName(m)) + "<div class=\"collapseAction\"><p onClick=\"doToggle(this)\">Hide Details</p></div></div><div class=\"expanded\">");        
+        text.addMarkup(0, "<div class=\"collapseHeader\">" + getCurrentLevelPrefix() + Util.escape(section.getSectionDisplayName(m)) + "<div class=\"collapseAction\"><p onClick=\"doToggle(this)\">" + ((section.getCollapseSection()) ? "Show DetailsA" : "Hide DetailsA") +"</p></div></div><div class=\"" + ((section.getCollapseSection()) ? "collapsed" : "expanded") + "\">");
         numberingStack.add(new StackLevel());
         currentSections.push(section);
     }
