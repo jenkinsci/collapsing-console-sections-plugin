@@ -46,7 +46,7 @@ THE SOFTWARE.
                 <f:checkbox title="${%Collapse only one level per ending string}" checked="${instance.collapseOnlyOneLevel}"/>
             </f:entry>
             <f:entry title="${%Collapse Sections}" field="collapseSection">
-                <f:checkbox title="${%Show the section collapsed}" checked="${instance.collapseSection}"/>
+                <f:checkbox title="${%Collapse Sections by default}" checked="${instance.collapseSection}"/>
             </f:entry>
           <f:entry title="">
             <div align="right">
