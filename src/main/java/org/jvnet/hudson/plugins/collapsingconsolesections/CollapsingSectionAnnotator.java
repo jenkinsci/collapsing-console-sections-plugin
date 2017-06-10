@@ -32,14 +32,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import java.util.regex.Matcher;
+import javax.annotation.Nonnull;
 
 public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
+    
+    @Nonnull
     private List<SectionDefinition> sections;
+    
+    @Nonnull
     private Stack<SectionDefinition> currentSections;
+    
+    @Nonnull
     private Stack<StackLevel> numberingStack;
+    
+    @Nonnull
     private CollapsingSectionsConfiguration configs;
 
-    public CollapsingSectionAnnotator(CollapsingSectionsConfiguration configs) {
+    public CollapsingSectionAnnotator(@Nonnull CollapsingSectionsConfiguration configs) {
         this.configs = configs;
         this.sections = Arrays.asList(configs.getSectionDefinitions());       
         this.currentSections = new Stack<SectionDefinition>();
@@ -78,6 +87,7 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
      * Generates level prefix for further display.
      * @return LEVEL_MARKER for each upper level
      */
+    @Nonnull
     private String getCurrentLevelPrefix() {
         StringBuilder str= new StringBuilder();
         if (configs.isNumberingEnabled()) {
@@ -90,14 +100,14 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
         return str.toString();
     }
     
-    private void pushSection(MarkupText text, Matcher m, SectionDefinition section) {
+    private void pushSection(@Nonnull MarkupText text, @Nonnull Matcher m, @Nonnull SectionDefinition section) {
         numberingStack.peek().increment();  
         text.addMarkup(0, "<div class=\"collapseHeader\">" + getCurrentLevelPrefix() + Util.escape(section.getSectionDisplayName(m)) + "<div class=\"collapseAction\"><p onClick=\"doToggle(this)\">" + ((section.isCollapseSection()) ? "Show Details" : "Hide Details") +"</p></div></div><div class=\"" + ((section.isCollapseSection()) ? "collapsed" : "expanded") + "\">");
         numberingStack.add(new StackLevel());
         currentSections.push(section);
     }
     
-    private void popSection(MarkupText text) {
+    private void popSection(@Nonnull MarkupText text) {
         text.addMarkup(text.getText().length(), "</div>");
         currentSections.pop();
         numberingStack.pop();
