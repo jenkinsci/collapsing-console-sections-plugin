@@ -2,7 +2,7 @@ function doToggle(o)
 {
     var section = o.parentNode.parentNode;
     if (section.nextElementSibling) {
-        if (section.nextElementSibling.className == "collapsed") {
+        if (section.nextElementSibling.className === "collapsed") {
             section.nextElementSibling.className = "expanded";
             o.innerHTML = "Hide Details";
         } else {
@@ -10,7 +10,7 @@ function doToggle(o)
             o.innerHTML = "Show Details";
         }
     } else {
-	if (section.nextSibling.className == "collapsed") {
+	if (section.nextSibling.className === "collapsed") {
             section.nextSibling.className = "expanded";
             o.innerHTML = "Hide Details";
         } else {
@@ -32,7 +32,7 @@ function doToggle(o)
                 offsets = new Object();
                 offsets.x = offsets.y = 0;
         }
-        if (typeof object == "string")
+        if (typeof object === "string")
                 object = document.getElementById(object);
         offsets.x += object.offsetLeft;
         offsets.y += object.offsetTop;
@@ -42,27 +42,27 @@ function doToggle(o)
                         break;
                 offsets.x += object.offsetLeft;
                 offsets.y += object.offsetTop;
-        } while(object.tagName.toUpperCase() != "BODY");
+        } while(object.tagName.toUpperCase() !== "BODY");
         return offsets;
 }
 
     function initFloatingSection() {
         var d = document.getElementById("console-section-container");
-        if (d==null) return;
+        if (d === null) return;
 
         window.onscroll = function() {
             var offsets = getoffsets(d);
             var floatSection = d.childNodes[0];
 
             if (offsets.y - window.scrollY <= 5) {
-                if (floatSection.className != "scrollDetached") {
+                if (floatSection.className !== "scrollDetached") {
                     floatSection.className = "scrollDetached";
                     floatSection.style.width = d.offsetWidth;
                 }
 
                 floatSection.style["left"] = -window.scrollX + offsets.x + "px";
             } else {
-                if (floatSection.className != "scrollAttached") {
+                if (floatSection.className !== "scrollAttached") {
                     floatSection.className = "scrollAttached";
                 }
             }
@@ -70,7 +70,7 @@ function doToggle(o)
     }
 
     function loadOutline() {
-        if (outline!=null)  return false;   // already loaded
+        if (outline !== null)  return false;   // already loaded
 
         if (!loading) {
             loading = true;
