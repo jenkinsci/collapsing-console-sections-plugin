@@ -36,19 +36,25 @@ public class SectionDefinition implements Serializable {
     private Pattern start;
     private Pattern end;
     private boolean collapseOnlyOneLevel;
+    private boolean collapseSection;
 
-    /** 
+    /**
      * @deprecated Use version with sections collapsing instead
-     */ 
+     */
     public SectionDefinition(String sectionName, String sectionStartPattern, String sectionEndPattern) {
-        this(sectionName, sectionStartPattern, sectionEndPattern, false);
+        this(sectionName, sectionStartPattern, sectionEndPattern, false, false);
     }
-    
+
     public SectionDefinition(String sectionName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel) {
+        this(sectionName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, false);
+    }
+
+    public SectionDefinition(String sectionName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel, boolean collapseSection) {
         name = sectionName;
         start = Pattern.compile(sectionStartPattern);
         end = Pattern.compile(sectionEndPattern);
         this.collapseOnlyOneLevel = collapseOnlyOneLevel;
+        this.collapseSection = collapseSection;
     }
 
     public String getSectionDisplayName() {
@@ -79,7 +85,9 @@ public class SectionDefinition implements Serializable {
     public Pattern getSectionEndPattern() {
         return end;
     }
-
+    public boolean isCollapseSection() {
+        return collapseSection;
+    }
     public boolean isCollapseOnlyOneLevel() {
         return collapseOnlyOneLevel;
     }
