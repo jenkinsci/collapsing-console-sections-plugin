@@ -29,11 +29,17 @@ import hudson.MarkupText;
 import hudson.console.ConsoleAnnotationDescriptor;
 import hudson.console.ConsoleAnnotator;
 import hudson.console.ConsoleNote;
+import hudson.util.FormValidation;
 import java.lang.reflect.Array;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import net.sf.json.JSONObject;
+import org.kohsuke.accmod.Restricted;
+import org.kohsuke.accmod.restrictions.NoExternalUse;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 
 /**
@@ -166,6 +172,21 @@ public class CollapsingSectionNote extends ConsoleNote {
             save();
             
             return true;
+        }
+        
+        @Restricted(NoExternalUse.class)
+        public FormValidation doCheckSectionStartPattern(@QueryParameter String sectionStartPattern) {
+            try {
+                Pattern.compile(sectionStartPattern);
+            } catch (PatternSyntaxException exception) {
+                return FormValidation.error(exception.getDescription());
+            }
+            return FormValidation.ok();
+        }
+        
+        @Restricted(NoExternalUse.class)
+        public FormValidation doCheckSectionEndPattern(@QueryParameter String sectionEndPattern) {
+            return doCheckSectionStartPattern(sectionEndPattern);
         }
      }
 }
