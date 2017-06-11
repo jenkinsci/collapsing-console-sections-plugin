@@ -29,7 +29,7 @@ THE SOFTWARE.
     <div id="console-section-floater" class="scrollAttached">
         <table class='pane' id='console-section-outline'>
           <tr>
-            <td class='pane-header'>Console Sections</td>
+            <td class='pane-header'>${%Console Sections}</td>
           </tr>
           <tr>
             <td id='console-section-body' />

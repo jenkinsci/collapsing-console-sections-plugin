@@ -23,10 +23,13 @@
  */
 package org.jvnet.hudson.plugins.collapsingconsolesections;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 /**
  * Provides a serializable instance of collapsing sections global configs. 
@@ -34,22 +37,34 @@ import java.util.Arrays;
  * @since 1.4.1
  */
 public class CollapsingSectionsConfiguration implements Serializable {
-    private final CollapsingSectionNote[] sections;
+    
+    @Nonnull
+    private CollapsingSectionNote[] sections;
     private final boolean numberingEnabled;
    
-    public CollapsingSectionsConfiguration(CollapsingSectionNote[] sections, boolean numberingEnabled) {
+    public CollapsingSectionsConfiguration(@CheckForNull CollapsingSectionNote[] sections, boolean numberingEnabled) {
         this.sections = sections != null ? Arrays.copyOf(sections, sections.length) : new CollapsingSectionNote[0];
         this.numberingEnabled = numberingEnabled;
+    }
+    
+    @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "Migration logic")
+    private Object readResolve() {
+        if (sections == null) {
+            sections = new CollapsingSectionNote[0];
+        }
+        return this;
     }
 
     public boolean isNumberingEnabled() {
         return numberingEnabled;
     }
 
+    @Nonnull
     public CollapsingSectionNote[] getSections() {
-        return sections != null ? Arrays.copyOf(sections, sections.length) : new CollapsingSectionNote[0];
+        return Arrays.copyOf(sections, sections.length);
     }
     
+    @Nonnull
     public SectionDefinition[] getSectionDefinitions() {
         CollapsingSectionNote[] configs = getSections();
         ArrayList<SectionDefinition> defs = new ArrayList<SectionDefinition>();

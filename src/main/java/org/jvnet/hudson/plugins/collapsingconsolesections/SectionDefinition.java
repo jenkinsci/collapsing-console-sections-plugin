@@ -26,6 +26,8 @@ package org.jvnet.hudson.plugins.collapsingconsolesections;
 import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+import javax.annotation.Nonnull;
 
 /**
  *
@@ -39,17 +41,31 @@ public class SectionDefinition implements Serializable {
     private boolean collapseSection;
 
     /**
-     * @deprecated Use version with sections collapsing instead
+     * @deprecated Use {@link #SectionDefinition(java.lang.String, java.lang.String, java.lang.String, boolean, boolean)} instead.
      */
+    @Deprecated
     public SectionDefinition(String sectionName, String sectionStartPattern, String sectionEndPattern) {
         this(sectionName, sectionStartPattern, sectionEndPattern, false, false);
     }
 
+    /**
+     * @deprecated Use {@link #SectionDefinition(java.lang.String, java.lang.String, java.lang.String, boolean, boolean)} instead.
+     */
+    @Deprecated
     public SectionDefinition(String sectionName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel) {
         this(sectionName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, false);
     }
 
-    public SectionDefinition(String sectionName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel, boolean collapseSection) {
+    /**
+     * Creates a new section definition.
+     * @param sectionName Name of the section
+     * @param sectionStartPattern Regular expression pattern for the section start
+     * @param sectionEndPattern Regular expression pattern for the section end
+     * @param collapseOnlyOneLevel If {@code true}, only one level will be collapsed by the end pattern
+     * @param collapseSection If {@code true}, the section should be collapsed by default
+     * @throws PatternSyntaxException One of the patterns is invalid
+     */
+    public SectionDefinition(@Nonnull String sectionName, @Nonnull String sectionStartPattern, @Nonnull String sectionEndPattern, boolean collapseOnlyOneLevel, boolean collapseSection) throws PatternSyntaxException {
         name = sectionName;
         start = Pattern.compile(sectionStartPattern);
         end = Pattern.compile(sectionEndPattern);
@@ -57,11 +73,13 @@ public class SectionDefinition implements Serializable {
         this.collapseSection = collapseSection;
     }
 
+    @Nonnull
     public String getSectionDisplayName() {
         return name;
     }
 
-    public String getSectionDisplayName(Matcher m) {
+    @Nonnull
+    public String getSectionDisplayName(@Nonnull Matcher m) {
         @SuppressWarnings("RedundantStringConstructorCall")
         String result = name;
         if (m.matches()) {
@@ -78,10 +96,12 @@ public class SectionDefinition implements Serializable {
         return result;
     }
 
+    @Nonnull
     public Pattern getSectionStartPattern() {
         return start;
     }
 
+    @Nonnull
     public Pattern getSectionEndPattern() {
         return end;
     }

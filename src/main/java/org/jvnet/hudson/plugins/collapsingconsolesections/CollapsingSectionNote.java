@@ -23,14 +23,23 @@
  */
 package org.jvnet.hudson.plugins.collapsingconsolesections;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.MarkupText;
 import hudson.console.ConsoleAnnotationDescriptor;
 import hudson.console.ConsoleAnnotator;
 import hudson.console.ConsoleNote;
+import hudson.util.FormValidation;
 import java.lang.reflect.Array;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 import net.sf.json.JSONObject;
+import org.kohsuke.accmod.Restricted;
+import org.kohsuke.accmod.restrictions.NoExternalUse;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 
 /**
@@ -38,14 +47,18 @@ import org.kohsuke.stapler.StaplerRequest;
  * @author dty
  */
 public class CollapsingSectionNote extends ConsoleNote {
+    
+    @Nonnull
     private String sectionDisplayName;
+    @Nonnull
     private String sectionStartPattern;
+    @Nonnull
     private String sectionEndPattern;
     private boolean collapseOnlyOneLevel;
     private boolean collapseSection;
 
     @DataBoundConstructor
-    public CollapsingSectionNote(String sectionDisplayName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel, boolean collapseSection) {
+    public CollapsingSectionNote(@Nonnull String sectionDisplayName, @Nonnull String sectionStartPattern, @Nonnull String sectionEndPattern, boolean collapseOnlyOneLevel, boolean collapseSection) {
         this.sectionDisplayName = sectionDisplayName;
         this.sectionStartPattern = sectionStartPattern;
         this.sectionEndPattern = sectionEndPattern;
@@ -53,22 +66,31 @@ public class CollapsingSectionNote extends ConsoleNote {
         this.collapseSection = collapseSection;
     }
 
+    @Deprecated
     public CollapsingSectionNote(String sectionDisplayName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel) {
         this(sectionDisplayName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, false);
     }
 
+    @Nonnull
     public String getSectionDisplayName() {
         return sectionDisplayName;
     }
 
+    @Nonnull
     public String getSectionStartPattern() {
         return sectionStartPattern;
     }
 
+    @Nonnull
     public String getSectionEndPattern() {
         return sectionEndPattern;
     }
 
+    /**
+     * Check if the section should be collapsed by default.
+     * @return {@code} true if the section should be collapsed.
+     * @since 1.6.0
+     */
     public boolean isCollapseSection() {
         return collapseSection;
     }
@@ -77,6 +99,7 @@ public class CollapsingSectionNote extends ConsoleNote {
         return collapseOnlyOneLevel;
     }
 
+    @Nonnull
     public SectionDefinition getDefinition() {
         return new SectionDefinition(sectionDisplayName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, collapseSection);
     }
@@ -89,26 +112,33 @@ public class CollapsingSectionNote extends ConsoleNote {
 
     @Extension
     public static final class DescriptorImpl extends ConsoleAnnotationDescriptor {
+        
+        @CheckForNull
         private CollapsingSectionNote[] sections;
         private boolean numberingEnabled;
+        @Nonnull
         private transient CollapsingSectionsConfiguration configuration;
 
+        @SuppressFBWarnings(value = "NP_NONNULL_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR", justification = "configuration is always initialized in load()")
         public DescriptorImpl() {
             load();
         }
         
+        @Override
         public String getDisplayName() {
             return "Console Section";
         }
 
+        @Nonnull
         public CollapsingSectionNote[] getSections() {
             if (sections != null) {
                 return sections.clone();
             }
 
-            return (CollapsingSectionNote[]) Array.newInstance(CollapsingSectionNote.class, 0);
+            return new CollapsingSectionNote[0];
         }
 
+        @Nonnull
         public SectionDefinition[] getSectionDefinitions() {
             return configuration.getSectionDefinitions();
         }
@@ -121,6 +151,7 @@ public class CollapsingSectionNote extends ConsoleNote {
             return numberingEnabled;
         }
         
+        @Nonnull
         public CollapsingSectionsConfiguration getConfiguration() {
             return configuration;
         }
@@ -141,6 +172,21 @@ public class CollapsingSectionNote extends ConsoleNote {
             save();
             
             return true;
+        }
+        
+        @Restricted(NoExternalUse.class)
+        public FormValidation doCheckSectionStartPattern(@QueryParameter String sectionStartPattern) {
+            try {
+                Pattern.compile(sectionStartPattern);
+            } catch (PatternSyntaxException exception) {
+                return FormValidation.error(exception.getDescription());
+            }
+            return FormValidation.ok();
+        }
+        
+        @Restricted(NoExternalUse.class)
+        public FormValidation doCheckSectionEndPattern(@QueryParameter String sectionEndPattern) {
+            return doCheckSectionStartPattern(sectionEndPattern);
         }
      }
 }

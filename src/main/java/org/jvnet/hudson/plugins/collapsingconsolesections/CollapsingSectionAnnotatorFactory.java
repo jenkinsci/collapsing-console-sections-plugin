@@ -26,7 +26,7 @@ package org.jvnet.hudson.plugins.collapsingconsolesections;
 import hudson.Extension;
 import hudson.console.ConsoleAnnotator;
 import hudson.console.ConsoleAnnotatorFactory;
-import hudson.model.Hudson;
+import jenkins.model.Jenkins;
 
 /**
  *
@@ -36,7 +36,13 @@ import hudson.model.Hudson;
 public class CollapsingSectionAnnotatorFactory extends ConsoleAnnotatorFactory {
     @Override
     public ConsoleAnnotator newInstance(Object context) {
-        CollapsingSectionNote.DescriptorImpl descr = Hudson.getInstance().getDescriptorByType(CollapsingSectionNote.DescriptorImpl.class);
+        final Jenkins jenkins = Jenkins.getInstance();
+        if (jenkins == null) {
+            // Should never happen
+            return null;
+        }
+        
+        CollapsingSectionNote.DescriptorImpl descr = jenkins.getDescriptorByType(CollapsingSectionNote.DescriptorImpl.class);
         if (descr.getSectionDefinitions().length == 0) {
             return null;
         }
