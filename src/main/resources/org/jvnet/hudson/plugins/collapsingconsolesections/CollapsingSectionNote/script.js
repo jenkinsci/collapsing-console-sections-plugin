@@ -89,23 +89,70 @@ function doToggle(o)
         return true;
     }
 
-    function handle(e) {
-        if (loadOutline()) {
-            queue.push(e);
-        } else {
-            var id = "console-section-"+(iota++);
-            outline.appendChild(parseHtml("<li><a href='#"+id+"'>"+e.childNodes[0].data+"</a></li>"))
+    function generateOutlineSection($sectionElt){
 
-            var a = document.createElement("a");
-            a.setAttribute("name",id);
-            e.parentNode.insertBefore(a, e);
+        var id = "console-section-"+(iota++);
+    	// add target link in output log
+        var $a =jQuery("<a name='"+id+"' />");
+        $a.prependTo($sectionElt);  
+    	
+    	// create outline element
+    	var $collapseHeader = $sectionElt.children("DIV.collapseHeader")
+        var $elt = jQuery("<li/>")
+        $elt.append(jQuery("<a href= '#"+id+"'>"+justtext($collapseHeader)+"</a>"));
+
+    	//check children sections
+    	var level = $sectionElt.parents("div.section").length;
+        var childrenSections = $sectionElt.find("div.section")
+        childrenSections = childrenSections.filter(
+        		function( index ) {
+        			isDirectChild =  jQuery(this).parents("div.section").length == (level +1)
+        			return isDirectChild; 
+        		}
+        )
+        if(childrenSections.length){            	
+        	var $newParentUl =  jQuery("<ul/>");	
+        	$newParentUl.data("name" , "UL  :"+$sectionElt.data("level"))
+        	childrenSections.each(function(childIndex, child){
+            	//console.log("trigger child "+jQuery(child).data("level")+" from " + $sectionElt.data("level"))
+        		var $childElt = generateOutlineSection(jQuery(child))
+        		//console.log("Adding : "+$childElt.html() + "  to "+ jQuery("<div></div>").append( $newParentUl.clone() ).html())
+        		$newParentUl.append($childElt)
+        		//console.log("Added : "+jQuery("<div></div>").append( $newParentUl.clone() ).html())
+        	})
+        	$elt.append($newParentUl);
+        }
+        return $elt
+    }
+    
+    
+    function handle(e) {    	
+    	var $sectionElt = jQuery(e);
+        if (loadOutline()) {
+       		queue.push(e);
+        } else {        
+            newElt = generateOutlineSection($sectionElt)
+            jQuery(outline).append(newElt);  
         }
     }
+    
+    function justtext(elt) {
+    	  
+    	return jQuery(elt).clone()
+    			.children()
+    			.remove()
+    			.end()
+    			.text();
+    };
 
     Behaviour.register({
         // insert <a name="..."> for each console section and put it into the outline
-        "div.collapseHeader" : function(e) {
-            handle(e);
+        "div.section" : function(e) {
+        	level = jQuery(e).parents("div.section").length;
+        	//only treat top level section
+        	if(level == 0){
+      			handle(e);
+        	}
         }
     });
 }());
