@@ -37,10 +37,6 @@ public class CollapsingSectionAnnotatorFactory extends ConsoleAnnotatorFactory {
     @Override
     public ConsoleAnnotator newInstance(Object context) {
         final Jenkins jenkins = Jenkins.getInstance();
-        if (jenkins == null) {
-            // Should never happen
-            return null;
-        }
         
         CollapsingSectionNote.DescriptorImpl descr = jenkins.getDescriptorByType(CollapsingSectionNote.DescriptorImpl.class);
         if (descr.getSectionDefinitions().length == 0) {
