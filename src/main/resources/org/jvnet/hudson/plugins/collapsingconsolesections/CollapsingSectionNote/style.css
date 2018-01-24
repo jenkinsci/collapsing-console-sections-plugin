@@ -39,3 +39,24 @@ div.scrollDetached {
     top: 2px;
     width: 280px;
 }
+
+TD.console-section-body UL, TD.console-section-body LI  {
+	list-style-type:none;
+}
+TD.console-section-body UL{
+	margin-bottom:1em;
+	margin-top: 0;
+	padding-left:15px;
+}
+
+/* Fix anchor displayed under the topbar 
+ * Use the .target for custom target declaration
+ * The :target pseudo selector automatically targets anchored id element
+ * */
+:target:before {
+  content: "";
+  display: block;
+  height: 40px; 
+  margin: -40px 0 0;
+}
+

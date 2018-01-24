@@ -32,7 +32,7 @@ THE SOFTWARE.
             <td class='pane-header'>${%Console Sections}</td>
           </tr>
           <tr>
-            <td id='console-section-body' />
+            <td class='console-section-body' id='console-section-body' />
           </tr>
         </table>
     </div>
