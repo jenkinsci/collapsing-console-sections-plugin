@@ -101,8 +101,10 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
     }
     
     private void pushSection(@Nonnull MarkupText text, @Nonnull Matcher m, @Nonnull SectionDefinition section) {
-        numberingStack.peek().increment();  
-        text.addMarkup(0, "<div class=\"section\" data-level=\""+getCurrentLevelPrefix()+"\"><div class=\"collapseHeader\">" + getCurrentLevelPrefix() + Util.escape(section.getSectionDisplayName(m)) + "<div class=\"collapseAction\"><p onClick=\"doToggle(this)\">" + ((section.isCollapseSection()) ? "Show Details" : "Hide Details") +"</p></div></div><div class=\"" + ((section.isCollapseSection()) ? "collapsed" : "expanded") + "\">");
+        numberingStack.peek().increment();
+        // Add as end tag, which will be inserted prior to tags added by other
+        // console notes such as the timestamper plugin.
+        text.addMarkup(0, 0, "", "<div class=\"section\" data-level=\""+getCurrentLevelPrefix()+"\"><div class=\"collapseHeader\">" + getCurrentLevelPrefix() + Util.escape(section.getSectionDisplayName(m)) + "<div class=\"collapseAction\"><p onClick=\"doToggle(this)\">" + ((section.isCollapseSection()) ? "Show Details" : "Hide Details") +"</p></div></div><div class=\"" + ((section.isCollapseSection()) ? "collapsed" : "expanded") + "\">");
         numberingStack.add(new StackLevel());
         currentSections.push(section);
     }
