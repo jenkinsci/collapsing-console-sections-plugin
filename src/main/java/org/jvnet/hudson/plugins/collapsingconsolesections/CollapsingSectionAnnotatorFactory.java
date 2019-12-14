@@ -32,12 +32,12 @@ import jenkins.model.Jenkins;
  *
  * @author dty
  */
-@Extension
+@Extension(ordinal = -500) // Act after timestamper plugins and others.
 public class CollapsingSectionAnnotatorFactory extends ConsoleAnnotatorFactory {
     @Override
     public ConsoleAnnotator newInstance(Object context) {
         final Jenkins jenkins = Jenkins.getActiveInstance();
-        
+
         CollapsingSectionNote.DescriptorImpl descr = jenkins.getDescriptorByType(CollapsingSectionNote.DescriptorImpl.class);
         if (descr.getSectionDefinitions().length == 0) {
             return null;
