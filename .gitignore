@@ -1,2 +1,7 @@
 /target/
 /work
+
+.settings
+.project
+.classpath
+.factorypath
