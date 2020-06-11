@@ -48,6 +48,9 @@ THE SOFTWARE.
             <f:entry title="${%Collapse Sections}" field="collapseSection">
                 <f:checkbox title="${%Collapse Sections by default}" checked="${instance.collapseSection}"/>
             </f:entry>
+            <f:entry title="${%Allow Nesting}" field="allowNesting">
+                <f:checkbox title="${%Allow Nesting Sections}" checked="${instance.allowNesting}"/>
+            </f:entry>
           <f:entry title="">
             <div align="right">
               <f:repeatableDeleteButton value="Delete ${descriptor.displayName}"/>
