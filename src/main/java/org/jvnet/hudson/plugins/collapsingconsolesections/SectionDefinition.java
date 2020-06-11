@@ -43,7 +43,7 @@ public class SectionDefinition implements Serializable {
     private boolean allowNesting;
 
     /**
-     * @deprecated Use {@link #SectionDefinition(java.lang.String, java.lang.String, java.lang.String, boolean, boolean)} instead.
+     * @deprecated Use {@link #SectionDefinition(java.lang.String, java.lang.String, java.lang.String, boolean, boolean, boolean)} instead.
      */
     @Deprecated
     public SectionDefinition(String sectionName, String sectionStartPattern, String sectionEndPattern) {
@@ -51,11 +51,19 @@ public class SectionDefinition implements Serializable {
     }
 
     /**
-     * @deprecated Use {@link #SectionDefinition(java.lang.String, java.lang.String, java.lang.String, boolean, boolean)} instead.
+     * @deprecated Use {@link #SectionDefinition(java.lang.String, java.lang.String, java.lang.String, boolean, boolean, boolean)} instead.
      */
     @Deprecated
     public SectionDefinition(String sectionName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel) {
         this(sectionName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, false, false);
+    }
+    
+    /**
+     * @deprecated Use {@link #SectionDefinition(java.lang.String, java.lang.String, java.lang.String, boolean, boolean, boolean)} instead.
+     */
+    @Deprecated
+    public SectionDefinition(String sectionName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel, boolean collapseSection) {
+        this(sectionName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, collapseSection, false);
     }
 
     /**
