@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+    Annotations to collapse sections of the build console
+</div>

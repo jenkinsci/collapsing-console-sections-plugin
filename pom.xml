@@ -28,7 +28,7 @@ THE SOFTWARE.
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>3.54</version>
+        <version>4.80</version>
     </parent>
 
     <artifactId>collapsing-console-sections</artifactId>
@@ -36,14 +36,12 @@ THE SOFTWARE.
     <packaging>hpi</packaging>
     
     <properties>
-        <jenkins.version>2.150.3</jenkins.version>
-        <java.level>8</java.level>
+        <jenkins.version>2.361.4</jenkins.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.license>mit</project.license>
     </properties>
 
     <name>Jenkins Collapsing Console Sections Plugin</name>
-    <description>Annotations to collapse sections of the build console</description>
     <url>https://github.com/jenkinsci/collapsing-console-sections-plugin</url>
 
     <licenses>
