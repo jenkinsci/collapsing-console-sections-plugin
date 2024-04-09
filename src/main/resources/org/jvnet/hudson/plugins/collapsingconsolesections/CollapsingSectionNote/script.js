@@ -76,15 +76,21 @@ function doToggle(o)
 
         if (!loading) {
             loading = true;
-            var u = new Ajax.Updater(document.getElementById("side-panel"),
-                rootURL+"/descriptor/org.jvnet.hudson.plugins.collapsingconsolesections.CollapsingSectionNote/outline",
-                {insertion: Insertion.Bottom, onComplete: function() {
-                    if (!u.success())   return; // we can't us onSuccess because that kicks in before onComplete
-                    outline = document.getElementById("console-section-body");
-                    initFloatingSection();
-                    loading = false;
-                    queue.each(handle);
-                }});
+            fetch(
+                rootURL+"/descriptor/org.jvnet.hudson.plugins.collapsingconsolesections.CollapsingSectionNote/outline"
+            ).then(
+                (resp) => {
+                    resp.text().then( (responseText) => {
+                        const sidePanel = document.getElementById("side-panel");
+                        sidePanel.insertAdjacentHTML("beforeend", responseText);
+
+                        outline = document.getElementById("console-section-body");
+                        initFloatingSection();
+                        loading = false;
+                        queue.forEach(handle);
+                    })
+                }
+            );
         }
         return true;
     }
