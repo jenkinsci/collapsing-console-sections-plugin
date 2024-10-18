@@ -20,7 +20,7 @@ function doToggle(o)
     }
 }
 
-(function() {
+document.addEventListener("DOMContentLoaded", function () {
     // created on demand
     var outline = null;
     var loading = false;
@@ -95,70 +95,89 @@ function doToggle(o)
         return true;
     }
 
-    function generateOutlineSection($sectionElt){
+    function generateOutlineSection(sectionElt){
 
         var id = "console-section-"+(iota++);
     	// add target link in output log
-        var $a =jQuery("<a name='"+id+"' />");
-        $a.prependTo($sectionElt);  
+        var a = document.createElement("a");
+        a.name = id;
+        sectionElt.prepend(a);  
     	
     	// create outline element
-    	var $collapseHeader = $sectionElt.children("DIV.collapseHeader")
-        var $elt = jQuery("<li/>")
-        $elt.append(jQuery("<a href= '#"+id+"'>"+justtext($collapseHeader)+"</a>"));
+    	var collapseHeader = sectionElt.querySelector("DIV.collapseHeader")
+        var elt = document.createElement("li")
+        var a = document.createElement("a");
+        a.href = "#" + id;
+        a.textContent = justtext(collapseHeader);
+        elt.appendChild(a);
 
     	//check children sections
-    	var level = $sectionElt.parents("div.section").length;
-        var childrenSections = $sectionElt.find("div.section")
-        childrenSections = childrenSections.filter(
-        		function( index ) {
-        			isDirectChild =  jQuery(this).parents("div.section").length == (level +1)
-        			return isDirectChild; 
+    	var level = -1;
+    	var currentElement = sectionElt;
+    	while (currentElement.closest("div.section")) {
+    		currentElement = currentElement.closest("div.section").parentElement;
+    		level++;
+    	}
+        var childrenSections = sectionElt.querySelectorAll("div.section")
+        childrenSections = Array.from(childrenSections).filter(
+        		function( section ) {
+        			var parentLevel = -1;
+        			var parentElement = section.closest("div.section").parentElement;
+        			while (parentElement.closest("div.section")) {
+        				parentElement = parentElement.closest("div.section").parentElement;
+        				parentLevel++;
+        			}
+        			return parentLevel == level;
         		}
         )
         if(childrenSections.length){            	
-        	var $newParentUl =  jQuery("<ul/>");	
-        	$newParentUl.data("name" , "UL  :"+$sectionElt.data("level"))
-        	childrenSections.each(function(childIndex, child){
-            	//console.log("trigger child "+jQuery(child).data("level")+" from " + $sectionElt.data("level"))
-        		var $childElt = generateOutlineSection(jQuery(child))
-        		//console.log("Adding : "+$childElt.html() + "  to "+ jQuery("<div></div>").append( $newParentUl.clone() ).html())
-        		$newParentUl.append($childElt)
-        		//console.log("Added : "+jQuery("<div></div>").append( $newParentUl.clone() ).html())
-        	})
-        	$elt.append($newParentUl);
+                var newParentUl = document.createElement("ul");	
+                newParentUl.dataset.name = "UL  :"+sectionElt.dataset.level
+                childrenSections.forEach(function(child) {
+                    var childElt = generateOutlineSection(child)
+                    newParentUl.appendChild(childElt)
+                });
+                elt.appendChild(newParentUl);
         }
-        return $elt
+        return elt
     }
     
     
     function handle(e) {    	
-    	var $sectionElt = jQuery(e);
+    	var sectionElt = e;
         if (loadOutline()) {
        		queue.push(e);
         } else {        
-            newElt = generateOutlineSection($sectionElt)
-            jQuery(outline).append(newElt);  
+            newElt = generateOutlineSection(sectionElt)
+            outline.appendChild(newElt);  
         }
     }
     
     function justtext(elt) {
     	  
-    	return jQuery(elt).clone()
-    			.children()
-    			.remove()
-    			.end()
-    			.text();
+    	var clone = elt.cloneNode(true);
+    	const childNodes = Array.from(clone.childNodes);
+    	childNodes.forEach(node => {
+    		if (node.nodeType === Node.ELEMENT_NODE) {
+    			clone.removeChild(node);
+    		}
+    	});
+    	return clone.textContent;
     };
 
     Behaviour.register({
         // insert <a name="..."> for each console section and put it into the outline
         "div.section" : function(e) {
-        	level = jQuery(e).parents("div.section").length;
+                var level = -1;
+                var currentElement = e;
+                while (currentElement && currentElement.closest("div.section")) {
+                    currentElement = currentElement.closest("div.section").parentElement;
+                    level++;
+                }
         	//only treat top level section
         	if(level == 0){
       			handle(e);
         	}
         }
     });
-}());
+});
