@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 The MIT License
 
@@ -28,17 +29,19 @@ THE SOFTWARE.
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>4.80</version>
+        <version>4.88</version>
+        <relativePath />
     </parent>
 
     <artifactId>collapsing-console-sections</artifactId>
-    <version>1.9.1-SNAPSHOT</version>
+    <version>${revision}${changelist}</version>
     <packaging>hpi</packaging>
     
     <properties>
-        <jenkins.version>2.361.4</jenkins.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.license>mit</project.license>
+        <revision>1.9.1</revision>
+        <changelist>-SNAPSHOT</changelist>
+        <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
+        <jenkins.version>2.440.3</jenkins.version>
     </properties>
 
     <name>Jenkins Collapsing Console Sections Plugin</name>
@@ -68,46 +71,12 @@ THE SOFTWARE.
         </developer>
     </developers>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>2.9</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>javancss-maven-plugin</artifactId>
-                    <version>2.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-jxr-plugin</artifactId>
-                    <version>2.5</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-pmd-plugin</artifactId>
-                    <version>3.6</version>
-                </plugin>
-                <plugin>
-                    <groupId>com.atlassian.maven.plugins</groupId>
-                    <artifactId>maven-clover2-plugin</artifactId>
-                    <version>4.0.6</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>jdepend-maven-plugin</artifactId>
-                    <version>2.0</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>       
-    </build>
-    
     <scm>
-        <connection>scm:git:ssh://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/${project.artifactId}-plugin.git</developerConnection>
-        <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
-      <tag>HEAD</tag>
-  </scm>
+        <connection>scm:git:https://github.com/${gitHubRepo}.git</connection>
+        <developerConnection>scm:git:git@github.com:${gitHubRepo}.git</developerConnection>
+        <url>https://github.com/${gitHubRepo}</url>
+        <tag>${scmTag}</tag>
+    </scm>
   
   <repositories> 
     <repository>
