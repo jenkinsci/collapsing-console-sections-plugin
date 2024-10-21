@@ -1,0 +1,32 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "mvnbuild": "",
+    "mvntest": "npm run lint",
+    "test": "npm run mvntest",
+    "lint": "eslint --color eslint.config.js src/main/resources -f eslint-formatter-multiple",
+    "lint:fix": "npm run lint -- --fix"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@stylistic/eslint-plugin": "^2.9.0",
+    "eslint": "^9.13.0",
+    "eslint-formatter-checkstyle": "^8.40.0",
+    "eslint-formatter-multiple": "^2.0.0",
+    "globals": "^15.11.0"
+  },
+  "eslint-formatter-multiple": {
+    "formatters": [
+      {
+        "name": "stylish",
+        "output": "console"
+      },
+      {
+        "name": "checkstyle",
+        "output": "file",
+        "path": "target/eslint-warnings.xml"
+      }
+    ]
+  }
+}

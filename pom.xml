@@ -36,12 +36,16 @@ THE SOFTWARE.
     <artifactId>collapsing-console-sections</artifactId>
     <version>${revision}${changelist}</version>
     <packaging>hpi</packaging>
-    
+
     <properties>
         <revision>1.9.1</revision>
         <changelist>-SNAPSHOT</changelist>
         <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
         <jenkins.version>2.440.3</jenkins.version>
+        <node.version>20.18.0</node.version>
+        <npm.version>10.9.0</npm.version>
+        <maven.test.failure.ignore>false</maven.test.failure.ignore>
+        <frontend.testFailureIgnore>${maven.test.failure.ignore}</frontend.testFailureIgnore>
     </properties>
 
     <name>Jenkins Collapsing Console Sections Plugin</name>
