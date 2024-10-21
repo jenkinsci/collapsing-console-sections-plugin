@@ -13,3 +13,7 @@ work
 .settings
 .classpath
 .project
+
+# NodeJS and npm installation from Maven frontend plugin
+/node/
+/node_modules/
