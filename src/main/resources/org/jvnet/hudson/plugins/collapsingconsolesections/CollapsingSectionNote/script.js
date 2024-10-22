@@ -1,3 +1,5 @@
+// The doToggle method is used by CollapsingSectionAnnotator.java
+// eslint-disable-next-line no-unused-vars
 function doToggle(o)
 {
     var section = o.parentNode.parentNode;
@@ -99,17 +101,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var id = "console-section-"+(iota++);
     	// add target link in output log
-        var a = document.createElement("a");
-        a.name = id;
-        sectionElt.prepend(a);  
-    	
+        var targetLink = document.createElement("a");
+        targetLink.name = id;
+        sectionElt.prepend(targetLink);
+
     	// create outline element
     	var collapseHeader = sectionElt.querySelector("DIV.collapseHeader")
         var elt = document.createElement("li")
-        var a = document.createElement("a");
-        a.href = "#" + id;
-        a.textContent = justtext(collapseHeader);
-        elt.appendChild(a);
+        var link = document.createElement("a");
+        link.href = "#" + id;
+        link.textContent = justtext(collapseHeader);
+        elt.appendChild(link);
 
     	//check children sections
     	var level = -1;
@@ -148,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (loadOutline()) {
        		queue.push(e);
         } else {        
-            newElt = generateOutlineSection(sectionElt)
+            var newElt = generateOutlineSection(sectionElt)
             outline.appendChild(newElt);  
         }
     }
