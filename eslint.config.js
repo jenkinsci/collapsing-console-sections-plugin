@@ -25,9 +25,6 @@ export default [
     {
         rules: {
             "@stylistic/arrow-parens": "off",
-            "no-redeclare": "off",
-            "no-undef": "off",
-            "no-unused-vars": "off",
             "@stylistic/brace-style": "off",
             "@stylistic/comma-dangle": "off",
             "@stylistic/indent": "off",
