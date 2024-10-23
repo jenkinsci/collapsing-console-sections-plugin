@@ -2,22 +2,12 @@
 // eslint-disable-next-line no-unused-vars
 function doToggle(o) {
     var section = o.parentNode.parentNode;
-    if (section.nextElementSibling) {
-        if (section.nextElementSibling.className === "collapsed") {
-            section.nextElementSibling.className = "expanded";
-            o.innerHTML = "Hide Details";
-        } else {
-            section.nextElementSibling.className = "collapsed";
-            o.innerHTML = "Show Details";
-        }
+    if (section.nextElementSibling.className === "collapsed") {
+        section.nextElementSibling.className = "expanded";
+        o.innerHTML = "Hide Details";
     } else {
-        if (section.nextSibling.className === "collapsed") {
-            section.nextSibling.className = "expanded";
-            o.innerHTML = "Hide Details";
-        } else {
-            section.nextSibling.className = "collapsed";
-            o.innerHTML = "Show Details";
-        }
+        section.nextElementSibling.className = "collapsed";
+        o.innerHTML = "Show Details";
     }
 }
 
