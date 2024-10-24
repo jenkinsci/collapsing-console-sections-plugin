@@ -47,14 +47,14 @@ td#console-section-body ul {
     padding-left: 15px;
 }
 
-/* Fix anchor displayed under the topbar 
+/* Fix anchor displayed under the topbar
  * Use the .target for custom target declaration
  * The :target pseudo selector automatically targets anchored id element
  * */
-:target:before {
+:target::before {
   content: "";
   display: block;
-  height: 40px; 
+  height: 40px;
   margin: -40px 0 0;
 }
 
