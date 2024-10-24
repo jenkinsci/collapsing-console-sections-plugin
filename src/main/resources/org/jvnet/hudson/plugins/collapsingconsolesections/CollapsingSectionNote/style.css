@@ -1,33 +1,38 @@
-div.collapseHeader {
+details.collapsingSection > summary {
     font-size: 110%;
     font-weight: bold;
-    text-align: center;
-    border-top: solid;
-    border-bottom: solid;
-    border-width: 1px;
-    background-color: #d5d5d5;
+    background-color: var(--background);
+    color: var(--table-body-foreground);
+    border-radius: var(--table-border-radius);
+    padding-left: 1em;
 }
 
-div.collapseAction {
-    font-size: 10pt;
-    font-weight: normal;
-    text-align: left;
-    text-decoration: underline;
-    margin-left: 5px;
-    margin-bottom: -7px;
-    cursor: pointer;
+details[open].collapsingSection > summary {
+    border-radius: var(--table-border-radius) var(--table-border-radius) 0 0 ;
 }
 
-div.expanded {
-    display: block;
+details.collapsingSection {
+    margin: 0 2px 0.5em 0;
+}
+
+details.collapsingSection > a {
+    /**
+     * The top of the console is below the top breadcrumbBar, we need the
+     * scrolling point to be slighly below.
+     */
+    scroll-margin-top: 3.60rem;
+}
+
+details[open].collapsingSection {
     border-bottom: solid lightgray;
     border-left: solid lightgray;
     border-width: 1px;
-    padding-left: 2px;
+    border-radius: var(--table-border-radius) var(--table-border-radius) 0 0;
+    box-shadow: 0.2em 0.5em 0.5em -0.5em var(--text-color);
 }
 
-div.collapsed {
-    display: none;
+details.collapsingSection > div {
+    padding-left: 2px;
 }
 
 div.scrollAttached {
@@ -47,6 +52,10 @@ td#console-section-body ul {
     padding-left: 15px;
 }
 
+.pane td#console-section-body a {
+    text-decoration: none;
+}
+
 /* Fix anchor displayed under the topbar
  * Use the .target for custom target declaration
  * The :target pseudo selector automatically targets anchored id element
@@ -57,4 +66,3 @@ td#console-section-body ul {
   height: 40px;
   margin: -40px 0 0;
 }
-

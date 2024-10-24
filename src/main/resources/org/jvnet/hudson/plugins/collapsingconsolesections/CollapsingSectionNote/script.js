@@ -1,26 +1,3 @@
-// The doToggle method is used by CollapsingSectionAnnotator.java
-// eslint-disable-next-line no-unused-vars
-function doToggle(o) {
-    var section = o.parentNode.parentNode;
-    if (section.nextElementSibling) {
-        if (section.nextElementSibling.className === "collapsed") {
-            section.nextElementSibling.className = "expanded";
-            o.innerHTML = "Hide Details";
-        } else {
-            section.nextElementSibling.className = "collapsed";
-            o.innerHTML = "Show Details";
-        }
-    } else {
-        if (section.nextSibling.className === "collapsed") {
-            section.nextSibling.className = "expanded";
-            o.innerHTML = "Hide Details";
-        } else {
-            section.nextSibling.className = "collapsed";
-            o.innerHTML = "Show Details";
-        }
-    }
-}
-
 document.addEventListener("DOMContentLoaded", function () {
     // created on demand
     var outline = null;
@@ -104,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
         sectionElt.prepend(targetLink);
 
         // create outline element
-        var collapseHeader = sectionElt.querySelector("DIV.collapseHeader");
+        var collapseHeader = sectionElt.querySelector("summary.collapseHeader");
         var listElt = document.createElement("ul");
         var elt = document.createElement("li");
         listElt.appendChild(elt);
@@ -117,17 +94,18 @@ document.addEventListener("DOMContentLoaded", function () {
         // check children sections
         var level = -1;
         var currentElement = sectionElt;
-        while (currentElement.closest("div.section")) {
-            currentElement = currentElement.closest("div.section").parentElement;
+        var sectionsSelector = "details.collapsingSection";
+        while (currentElement.closest(sectionsSelector)) {
+            currentElement = currentElement.closest(sectionsSelector).parentElement;
             level++;
         }
-        var childrenSections = sectionElt.querySelectorAll("div.section");
+        var childrenSections = sectionElt.querySelectorAll(sectionsSelector);
         childrenSections = Array.from(childrenSections).filter(
             function (section) {
                 var parentLevel = -1;
-                var parentElement = section.closest("div.section").parentElement;
-                while (parentElement.closest("div.section")) {
-                    parentElement = parentElement.closest("div.section").parentElement;
+                var parentElement = section.closest(sectionsSelector).parentElement;
+                while (parentElement.closest(sectionsSelector)) {
+                    parentElement = parentElement.closest(sectionsSelector).parentElement;
                     parentLevel++;
                 }
                 return parentLevel == level;
@@ -165,11 +143,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     Behaviour.register({
         // insert <a name="..."> for each console section and put it into the outline
-        "div.section": function (e) {
+        "details.collapsingSection": function (e) {
             var level = -1;
             var currentElement = e;
-            while (currentElement && currentElement.closest("div.section")) {
-                currentElement = currentElement.closest("div.section").parentElement;
+            var sectionsSelector = "details.collapsingSection";
+            while (currentElement && currentElement.closest(sectionsSelector)) {
+                currentElement = currentElement.closest(sectionsSelector).parentElement;
                 level++;
             }
             // only treat top level section
