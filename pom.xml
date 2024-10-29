@@ -81,7 +81,27 @@ THE SOFTWARE.
         <url>https://github.com/${gitHubRepo}</url>
         <tag>${scmTag}</tag>
     </scm>
-  
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.jenkins.tools.bom</groupId>
+                <artifactId>bom-2.440.x</artifactId>
+                <version>3435.v238d66a_043fb_</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins</groupId>
+            <artifactId>timestamper</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
   <repositories> 
     <repository>
       <id>repo.jenkins-ci.org</id>

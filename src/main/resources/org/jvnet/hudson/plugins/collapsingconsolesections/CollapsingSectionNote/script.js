@@ -130,6 +130,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    function handleSidePanelChanges() {
+        const sidePanel = document.getElementById("side-panel");
+        const collapsePanel = sidePanel.children.namedItem("console-section-container");
+        if (collapsePanel === null) return;
+
+        // Move the collapsible section headers to the last position
+        if (sidePanel.lastElementChild !== collapsePanel) {
+            sidePanel.lastElementChild.after(collapsePanel);
+        }
+    }
+
     function justtext(elt) {
         var clone = elt.cloneNode(true);
         const childNodes = Array.from(clone.childNodes);
@@ -157,4 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         },
     });
+
+    new MutationObserver(handleSidePanelChanges)
+        .observe(document.getElementById("side-panel"), { childList: true });
 });
