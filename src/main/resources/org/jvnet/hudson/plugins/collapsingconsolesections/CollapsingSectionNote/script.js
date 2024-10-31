@@ -5,50 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var queue = []; // console sections are queued up until we load outline.
 
-    function getoffsets(object, offsets) {
-        if (!offsets) {
-            offsets = new Object();
-            offsets.x = offsets.y = 0;
-        }
-        if (typeof object === "string")
-            object = document.getElementById(object);
-        offsets.x += object.offsetLeft;
-        offsets.y += object.offsetTop;
-        do {
-            object = object.offsetParent;
-            if (!object)
-                break;
-            offsets.x += object.offsetLeft;
-            offsets.y += object.offsetTop;
-        } while (object.tagName.toUpperCase() !== "BODY");
-        return offsets;
-    }
-
-    function initFloatingSection() {
-        var d = document.getElementById("console-section-container");
-        if (d === null) return;
-
-        window.onscroll = function () {
-            var offsets = getoffsets(d);
-            var floatSection = d.childNodes[0];
-
-            // if the height of the floatSection exceeds the window then keep it attached
-            // detached would make some items inaccessible
-            if (offsets.y - window.scrollY <= 5 && floatSection.offsetHeight <= window.innerHeight) {
-                if (floatSection.className !== "scrollDetached") {
-                    floatSection.className = "scrollDetached";
-                    floatSection.style.width = d.offsetWidth + "px";
-                }
-
-                floatSection.style["left"] = -window.scrollX + offsets.x + "px";
-            } else {
-                if (floatSection.className !== "scrollAttached") {
-                    floatSection.className = "scrollAttached";
-                }
-            }
-        };
-    }
-
     function loadOutline() {
         if (outline !== null) return false; // already loaded
 
@@ -63,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         sidePanel.insertAdjacentHTML("beforeend", responseText);
 
                         outline = document.getElementById("console-section-body");
-                        initFloatingSection();
                         loading = false;
                         queue.forEach(handle);
                     });

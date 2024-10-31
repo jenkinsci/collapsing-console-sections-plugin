@@ -35,14 +35,20 @@ details.collapsingSection > div {
     padding-left: 2px;
 }
 
-div.scrollAttached {
-    position: static;
+#console-section-container {
+    position: sticky;
+    top: 44px;
 }
 
-div.scrollDetached {
-    position: fixed;
-    top: 2px;
-    width: 280px;
+/**
+ * Timestamper 1.27 made its pane sticky. When scrolling the text are
+ * overlapped which make them unreadable. Jenkins 2.463/2.479.1 changed the
+ * background from transparent to use the background color. Apply that here
+ * until we require a newer Jenkins.
+ * https://github.com/jenkinsci/collapsing-console-sections-plugin/pull/35#issuecomment-2450036779
+ */
+#console-section-container div.pane-frame {
+    background: var(--background)
 }
 
 td#console-section-body ul {
