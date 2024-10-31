@@ -132,7 +132,6 @@ document.addEventListener("DOMContentLoaded", function () {
         );
         if (childrenSections.length) {
             var newParentUl = document.createElement("ul");
-            newParentUl.dataset.name = "UL  :" + sectionElt.dataset.level;
             childrenSections.forEach(function (child) {
                 var childElt = generateOutlineSection(child);
                 newParentUl.appendChild(childElt);
