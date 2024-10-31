@@ -26,16 +26,13 @@ THE SOFTWARE.
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
   <l:ajax>
     <div id="console-section-container">
-    <div id="console-section-floater" class="scrollAttached">
-        <table class='pane' id='console-section-outline'>
+      <div id="console-section-floater" class="scrollAttached">
+        <l:pane title="${%Console Sections}">
           <tr>
-            <td class='pane-header'>${%Console Sections}</td>
+            <td id="console-section-body"></td>
           </tr>
-          <tr>
-            <td class='console-section-body' id='console-section-body' />
-          </tr>
-        </table>
-    </div>
+        </l:pane>
+      </div>
     </div>
   </l:ajax>
 </j:jelly>

@@ -40,13 +40,11 @@ div.scrollDetached {
     width: 280px;
 }
 
-TD.console-section-body UL, TD.console-section-body LI  {
-	list-style-type:none;
-}
-TD.console-section-body UL{
-	margin-bottom:1em;
-	margin-top: 0;
-	padding-left:15px;
+td#console-section-body ul {
+    list-style-type: none;
+    margin-bottom: 1em;
+    margin-top: 0;
+    padding-left: 15px;
 }
 
 /* Fix anchor displayed under the topbar 
