@@ -105,7 +105,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // create outline element
         var collapseHeader = sectionElt.querySelector("DIV.collapseHeader");
+        var listElt = document.createElement("ul");
         var elt = document.createElement("li");
+        listElt.appendChild(elt);
+
         var link = document.createElement("a");
         link.href = "#" + id;
         link.textContent = justtext(collapseHeader);
@@ -131,14 +134,12 @@ document.addEventListener("DOMContentLoaded", function () {
             },
         );
         if (childrenSections.length) {
-            var newParentUl = document.createElement("ul");
             childrenSections.forEach(function (child) {
                 var childElt = generateOutlineSection(child);
-                newParentUl.appendChild(childElt);
+                elt.appendChild(childElt);
             });
-            elt.appendChild(newParentUl);
         }
-        return elt;
+        return listElt;
     }
 
     function handle(e) {
