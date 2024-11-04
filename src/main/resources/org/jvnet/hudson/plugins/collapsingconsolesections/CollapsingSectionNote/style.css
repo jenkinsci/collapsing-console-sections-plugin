@@ -53,8 +53,7 @@ details.collapsingSection > div {
 
 td#console-section-body ul {
     list-style-type: none;
-    margin-bottom: 1em;
-    margin-top: 0;
+    margin: 0.5em 0;
     padding-left: 15px;
 }
 
