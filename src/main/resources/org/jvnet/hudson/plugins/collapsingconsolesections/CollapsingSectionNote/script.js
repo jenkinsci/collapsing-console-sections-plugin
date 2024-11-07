@@ -1,76 +1,9 @@
-// The doToggle method is used by CollapsingSectionAnnotator.java
-// eslint-disable-next-line no-unused-vars
-function doToggle(o) {
-    var section = o.parentNode.parentNode;
-    if (section.nextElementSibling) {
-        if (section.nextElementSibling.className === "collapsed") {
-            section.nextElementSibling.className = "expanded";
-            o.innerHTML = "Hide Details";
-        } else {
-            section.nextElementSibling.className = "collapsed";
-            o.innerHTML = "Show Details";
-        }
-    } else {
-        if (section.nextSibling.className === "collapsed") {
-            section.nextSibling.className = "expanded";
-            o.innerHTML = "Hide Details";
-        } else {
-            section.nextSibling.className = "collapsed";
-            o.innerHTML = "Show Details";
-        }
-    }
-}
-
 document.addEventListener("DOMContentLoaded", function () {
     // created on demand
     var outline = null;
     var loading = false;
 
     var queue = []; // console sections are queued up until we load outline.
-
-    function getoffsets(object, offsets) {
-        if (!offsets) {
-            offsets = new Object();
-            offsets.x = offsets.y = 0;
-        }
-        if (typeof object === "string")
-            object = document.getElementById(object);
-        offsets.x += object.offsetLeft;
-        offsets.y += object.offsetTop;
-        do {
-            object = object.offsetParent;
-            if (!object)
-                break;
-            offsets.x += object.offsetLeft;
-            offsets.y += object.offsetTop;
-        } while (object.tagName.toUpperCase() !== "BODY");
-        return offsets;
-    }
-
-    function initFloatingSection() {
-        var d = document.getElementById("console-section-container");
-        if (d === null) return;
-
-        window.onscroll = function () {
-            var offsets = getoffsets(d);
-            var floatSection = d.childNodes[0];
-
-            // if the height of the floatSection exceeds the window then keep it attached
-            // detached would make some items inaccessible
-            if (offsets.y - window.scrollY <= 5 && floatSection.offsetHeight <= window.innerHeight) {
-                if (floatSection.className !== "scrollDetached") {
-                    floatSection.className = "scrollDetached";
-                    floatSection.style.width = d.offsetWidth + "px";
-                }
-
-                floatSection.style["left"] = -window.scrollX + offsets.x + "px";
-            } else {
-                if (floatSection.className !== "scrollAttached") {
-                    floatSection.className = "scrollAttached";
-                }
-            }
-        };
-    }
 
     function loadOutline() {
         if (outline !== null) return false; // already loaded
@@ -86,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         sidePanel.insertAdjacentHTML("beforeend", responseText);
 
                         outline = document.getElementById("console-section-body");
-                        initFloatingSection();
                         loading = false;
                         queue.forEach(handle);
                     });
@@ -104,8 +36,11 @@ document.addEventListener("DOMContentLoaded", function () {
         sectionElt.prepend(targetLink);
 
         // create outline element
-        var collapseHeader = sectionElt.querySelector("DIV.collapseHeader");
+        var collapseHeader = sectionElt.querySelector("summary.collapseHeader");
+        var listElt = document.createElement("ul");
         var elt = document.createElement("li");
+        listElt.appendChild(elt);
+
         var link = document.createElement("a");
         link.href = "#" + id;
         link.textContent = justtext(collapseHeader);
@@ -114,32 +49,30 @@ document.addEventListener("DOMContentLoaded", function () {
         // check children sections
         var level = -1;
         var currentElement = sectionElt;
-        while (currentElement.closest("div.section")) {
-            currentElement = currentElement.closest("div.section").parentElement;
+        var sectionsSelector = "details.collapsingSection";
+        while (currentElement.closest(sectionsSelector)) {
+            currentElement = currentElement.closest(sectionsSelector).parentElement;
             level++;
         }
-        var childrenSections = sectionElt.querySelectorAll("div.section");
+        var childrenSections = sectionElt.querySelectorAll(sectionsSelector);
         childrenSections = Array.from(childrenSections).filter(
             function (section) {
                 var parentLevel = -1;
-                var parentElement = section.closest("div.section").parentElement;
-                while (parentElement.closest("div.section")) {
-                    parentElement = parentElement.closest("div.section").parentElement;
+                var parentElement = section.closest(sectionsSelector).parentElement;
+                while (parentElement.closest(sectionsSelector)) {
+                    parentElement = parentElement.closest(sectionsSelector).parentElement;
                     parentLevel++;
                 }
                 return parentLevel == level;
             },
         );
         if (childrenSections.length) {
-            var newParentUl = document.createElement("ul");
-            newParentUl.dataset.name = "UL  :" + sectionElt.dataset.level;
             childrenSections.forEach(function (child) {
                 var childElt = generateOutlineSection(child);
-                newParentUl.appendChild(childElt);
+                elt.appendChild(childElt);
             });
-            elt.appendChild(newParentUl);
         }
-        return elt;
+        return listElt;
     }
 
     function handle(e) {
@@ -149,6 +82,17 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             var newElt = generateOutlineSection(sectionElt);
             outline.appendChild(newElt);
+        }
+    }
+
+    function handleSidePanelChanges() {
+        const sidePanel = document.getElementById("side-panel");
+        const collapsePanel = sidePanel.children.namedItem("console-section-container");
+        if (collapsePanel === null) return;
+
+        // Move the collapsible section headers to the last position
+        if (sidePanel.lastElementChild !== collapsePanel) {
+            sidePanel.lastElementChild.after(collapsePanel);
         }
     }
 
@@ -165,11 +109,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     Behaviour.register({
         // insert <a name="..."> for each console section and put it into the outline
-        "div.section": function (e) {
+        "details.collapsingSection": function (e) {
             var level = -1;
             var currentElement = e;
-            while (currentElement && currentElement.closest("div.section")) {
-                currentElement = currentElement.closest("div.section").parentElement;
+            var sectionsSelector = "details.collapsingSection";
+            while (currentElement && currentElement.closest(sectionsSelector)) {
+                currentElement = currentElement.closest(sectionsSelector).parentElement;
                 level++;
             }
             // only treat top level section
@@ -178,4 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         },
     });
+
+    new MutationObserver(handleSidePanelChanges)
+        .observe(document.getElementById("side-panel"), { childList: true });
 });

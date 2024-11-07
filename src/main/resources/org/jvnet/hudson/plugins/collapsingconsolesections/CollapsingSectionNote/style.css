@@ -1,62 +1,73 @@
-div.collapseHeader {
+details.collapsingSection > summary {
     font-size: 110%;
     font-weight: bold;
-    text-align: center;
-    border-top: solid;
-    border-bottom: solid;
-    border-width: 1px;
-    background-color: #d5d5d5;
+    background-color: var(--background);
+    color: var(--table-body-foreground);
+    border-radius: var(--table-border-radius);
+    padding-left: 1em;
 }
 
-div.collapseAction {
-    font-size: 10pt;
-    font-weight: normal;
-    text-align: left;
-    text-decoration: underline;
-    margin-left: 5px;
-    margin-bottom: -7px;
-    cursor: pointer;
+details[open].collapsingSection > summary {
+    border-radius: var(--table-border-radius) var(--table-border-radius) 0 0 ;
 }
 
-div.expanded {
-    display: block;
+details.collapsingSection {
+    margin: 0 2px 0.5em 0;
+}
+
+details.collapsingSection > a {
+    /**
+     * The top of the console is below the top breadcrumbBar, we need the
+     * scrolling point to be slighly below.
+     */
+    scroll-margin-top: 3.60rem;
+}
+
+details[open].collapsingSection {
     border-bottom: solid lightgray;
     border-left: solid lightgray;
     border-width: 1px;
+    border-radius: var(--table-border-radius) var(--table-border-radius) 0 0;
+    box-shadow: 0.2em 0.5em 0.5em -0.5em var(--text-color);
+}
+
+details.collapsingSection > div {
     padding-left: 2px;
 }
 
-div.collapsed {
-    display: none;
+#console-section-container {
+    position: sticky;
+    top: 44px;
 }
 
-div.scrollAttached {
-    position: static;
+/**
+ * Timestamper 1.27 made its pane sticky. When scrolling the text are
+ * overlapped which make them unreadable. Jenkins 2.463/2.479.1 changed the
+ * background from transparent to use the background color. Apply that here
+ * until we require a newer Jenkins.
+ * https://github.com/jenkinsci/collapsing-console-sections-plugin/pull/35#issuecomment-2450036779
+ */
+#console-section-container div.pane-frame {
+    background: var(--background)
 }
 
-div.scrollDetached {
-    position: fixed;
-    top: 2px;
-    width: 280px;
+td#console-section-body ul {
+    list-style-type: none;
+    margin: 0.5em 0;
+    padding-left: 15px;
 }
 
-TD.console-section-body UL, TD.console-section-body LI  {
-	list-style-type:none;
-}
-TD.console-section-body UL{
-	margin-bottom:1em;
-	margin-top: 0;
-	padding-left:15px;
+.pane td#console-section-body a {
+    text-decoration: none;
 }
 
-/* Fix anchor displayed under the topbar 
+/* Fix anchor displayed under the topbar
  * Use the .target for custom target declaration
  * The :target pseudo selector automatically targets anchored id element
  * */
-:target:before {
+:target::before {
   content: "";
   display: block;
-  height: 40px; 
+  height: 40px;
   margin: -40px 0 0;
 }
-
