@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -39,21 +40,30 @@ public class SectionDefinition implements Serializable {
     private Pattern end;
     private boolean collapseOnlyOneLevel;
     private boolean collapseSection;
+    private boolean allowNesting;
 
     /**
-     * @deprecated Use {@link #SectionDefinition(java.lang.String, java.lang.String, java.lang.String, boolean, boolean)} instead.
+     * @deprecated Use {@link #SectionDefinition(java.lang.String, java.lang.String, java.lang.String, boolean, boolean, boolean)} instead.
      */
     @Deprecated
     public SectionDefinition(String sectionName, String sectionStartPattern, String sectionEndPattern) {
-        this(sectionName, sectionStartPattern, sectionEndPattern, false, false);
+        this(sectionName, sectionStartPattern, sectionEndPattern, false, false, false);
     }
 
     /**
-     * @deprecated Use {@link #SectionDefinition(java.lang.String, java.lang.String, java.lang.String, boolean, boolean)} instead.
+     * @deprecated Use {@link #SectionDefinition(java.lang.String, java.lang.String, java.lang.String, boolean, boolean, boolean)} instead.
      */
     @Deprecated
     public SectionDefinition(String sectionName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel) {
-        this(sectionName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, false);
+        this(sectionName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, false, false);
+    }
+    
+    /**
+     * @deprecated Use {@link #SectionDefinition(java.lang.String, java.lang.String, java.lang.String, boolean, boolean, boolean)} instead.
+     */
+    @Deprecated
+    public SectionDefinition(String sectionName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel, boolean collapseSection) {
+        this(sectionName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, collapseSection, false);
     }
 
     /**
@@ -65,12 +75,13 @@ public class SectionDefinition implements Serializable {
      * @param collapseSection If {@code true}, the section should be collapsed by default
      * @throws PatternSyntaxException One of the patterns is invalid
      */
-    public SectionDefinition(@Nonnull String sectionName, @Nonnull String sectionStartPattern, @Nonnull String sectionEndPattern, boolean collapseOnlyOneLevel, boolean collapseSection) throws PatternSyntaxException {
+    public SectionDefinition(@Nonnull String sectionName, @Nonnull String sectionStartPattern, @Nonnull String sectionEndPattern, boolean collapseOnlyOneLevel, boolean collapseSection, boolean allowNesting) throws PatternSyntaxException {
         name = sectionName;
         start = Pattern.compile(sectionStartPattern);
         end = Pattern.compile(sectionEndPattern);
         this.collapseOnlyOneLevel = collapseOnlyOneLevel;
         this.collapseSection = collapseSection;
+        this.allowNesting = allowNesting;
     }
 
     @Nonnull
@@ -110,5 +121,8 @@ public class SectionDefinition implements Serializable {
     }
     public boolean isCollapseOnlyOneLevel() {
         return collapseOnlyOneLevel;
+    }
+    public boolean isAllowNesting() {
+        return allowNesting;
     }
 }

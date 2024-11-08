@@ -23,6 +23,21 @@
  */
 package org.jvnet.hudson.plugins.collapsingconsolesections;
 
+import java.lang.reflect.Array;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
+import net.sf.json.JSONObject;
+
+import org.kohsuke.accmod.Restricted;
+import org.kohsuke.accmod.restrictions.NoExternalUse;
+import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.StaplerRequest;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.MarkupText;
@@ -30,17 +45,6 @@ import hudson.console.ConsoleAnnotationDescriptor;
 import hudson.console.ConsoleAnnotator;
 import hudson.console.ConsoleNote;
 import hudson.util.FormValidation;
-import java.lang.reflect.Array;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-import net.sf.json.JSONObject;
-import org.kohsuke.accmod.Restricted;
-import org.kohsuke.accmod.restrictions.NoExternalUse;
-import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.QueryParameter;
-import org.kohsuke.stapler.StaplerRequest;
 
 /**
  *
@@ -56,19 +60,21 @@ public class CollapsingSectionNote extends ConsoleNote {
     private String sectionEndPattern;
     private boolean collapseOnlyOneLevel;
     private boolean collapseSection;
+    private boolean allowNesting;
 
     @DataBoundConstructor
-    public CollapsingSectionNote(@Nonnull String sectionDisplayName, @Nonnull String sectionStartPattern, @Nonnull String sectionEndPattern, boolean collapseOnlyOneLevel, boolean collapseSection) {
+    public CollapsingSectionNote(@Nonnull String sectionDisplayName, @Nonnull String sectionStartPattern, @Nonnull String sectionEndPattern, boolean collapseOnlyOneLevel, boolean collapseSection, boolean allowNesting) {
         this.sectionDisplayName = sectionDisplayName;
         this.sectionStartPattern = sectionStartPattern;
         this.sectionEndPattern = sectionEndPattern;
         this.collapseOnlyOneLevel = collapseOnlyOneLevel;
         this.collapseSection = collapseSection;
+        this.allowNesting = allowNesting;
     }
 
     @Deprecated
     public CollapsingSectionNote(String sectionDisplayName, String sectionStartPattern, String sectionEndPattern, boolean collapseOnlyOneLevel) {
-        this(sectionDisplayName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, false);
+        this(sectionDisplayName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, false, false);
     }
 
     @Nonnull
@@ -101,7 +107,7 @@ public class CollapsingSectionNote extends ConsoleNote {
 
     @Nonnull
     public SectionDefinition getDefinition() {
-        return new SectionDefinition(sectionDisplayName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, collapseSection);
+        return new SectionDefinition(sectionDisplayName, sectionStartPattern, sectionEndPattern, collapseOnlyOneLevel, collapseSection, allowNesting);
     }
 
     @Override
