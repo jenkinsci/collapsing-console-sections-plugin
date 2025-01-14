@@ -106,18 +106,27 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
         }
         return str.toString();
     }
-    
+
     private void pushSection(@Nonnull MarkupText text, @Nonnull Matcher m, @Nonnull SectionDefinition section) {
         numberingStack.peek().increment();
         // Add as end tag, which will be inserted prior to tags added by other
         // console notes such as the timestamper plugin.
-        text.addMarkup(0, 0, "", "<div class=\"section\" data-level=\""+getCurrentLevelPrefix()+"\"><div class=\"collapseHeader\">" + getCurrentLevelPrefix() + Util.escape(section.getSectionDisplayName(m)) + "<div class=\"collapseAction\"><p onClick=\"doToggle(this)\">" + ((section.isCollapseSection()) ? "Show Details" : "Hide Details") +"</p></div></div><div class=\"" + ((section.isCollapseSection()) ? "collapsed" : "expanded") + "\">");
+        text.addMarkup(0, 0, "",
+            "<details"
+            +   " class=\"collapsingSection\" "
+            +   (section.isCollapseSection() ? "": " open")
+            + ">"
+                + "<summary class=\"collapseHeader\">"
+                    + getCurrentLevelPrefix() + Util.escape(section.getSectionDisplayName(m))
+                + "</summary>"
+            + "<div>"
+        );
         numberingStack.add(new StackLevel());
         currentSections.push(section);
     }
-    
+
     private void popSection(@Nonnull MarkupText text) {
-        text.addMarkup(text.getText().length(), "</div></div>");
+        text.addMarkup(text.getText().length(), "</div></details>");
         currentSections.pop();
         numberingStack.pop();
     }

@@ -1,0 +1,38 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "mvnbuild": "",
+    "mvntest": "npm run lint",
+    "test": "npm run mvntest",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "eslint --color eslint.config.js .stylelintrc.js src/main/resources -f eslint-formatter-multiple",
+    "lint:css": "stylelint \"src/main/**/*.css\"",
+    "lint:css-old": "stylelint --custom-formatter stylelint-checkstyle-reporter -o target/stylelint-warnings.xml 'src/main/**/*.css'",
+    "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@stylistic/eslint-plugin": "^2.9.0",
+    "eslint": "^9.13.0",
+    "eslint-formatter-checkstyle": "^8.40.0",
+    "eslint-formatter-multiple": "^2.0.0",
+    "globals": "^15.11.0",
+    "stylelint": "^16.10.0",
+    "stylelint-checkstyle-reporter": "^1.0.0",
+    "stylelint-config-standard": "^36.0.1"
+  },
+  "eslint-formatter-multiple": {
+    "formatters": [
+      {
+        "name": "stylish",
+        "output": "console"
+      },
+      {
+        "name": "checkstyle",
+        "output": "file",
+        "path": "target/eslint-warnings.xml"
+      }
+    ]
+  }
+}
