@@ -41,7 +41,9 @@ THE SOFTWARE.
         <revision>1.10.1</revision>
         <changelist>-SNAPSHOT</changelist>
         <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
-        <jenkins.version>2.440.3</jenkins.version>
+        <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
+        <jenkins.baseline>2.440</jenkins.baseline>
+        <jenkins.version>${jenkins.baseline}.3</jenkins.version>
         <node.version>20.18.0</node.version>
         <npm.version>10.9.0</npm.version>
         <maven.test.failure.ignore>false</maven.test.failure.ignore>
@@ -86,7 +88,7 @@ THE SOFTWARE.
         <dependencies>
             <dependency>
                 <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-2.440.x</artifactId>
+                <artifactId>bom-${jenkins.baseline}.x</artifactId>
                 <version>3435.v238d66a_043fb_</version>
                 <type>pom</type>
                 <scope>import</scope>
