@@ -23,16 +23,18 @@
  */
 package org.jvnet.hudson.plugins.collapsingconsolesections;
 
-import hudson.MarkupText;
-import hudson.Util;
-import hudson.console.ConsoleAnnotator;
-import hudson.model.Run;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import java.util.regex.Matcher;
+
 import javax.annotation.Nonnull;
+
+import hudson.MarkupText;
+import hudson.Util;
+import hudson.console.ConsoleAnnotator;
+import hudson.model.Run;
 
 public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
     
@@ -63,7 +65,7 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
         }
         
         while (!currentSections.empty()) {
-            SectionDefinition currentSection = currentSections.peek();
+          SectionDefinition currentSection = currentSections.peek();
             if (currentSection.getSectionEndPattern().matcher(text.getText().trim()).matches()) {
                 popSection(text);
                 if (currentSection.isCollapseOnlyOneLevel()) {
@@ -75,6 +77,11 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
         }
 
         for (SectionDefinition section : sections) {
+            if(!currentSections.empty()
+                && currentSections.peek().getSectionDisplayName().equals(section.getSectionDisplayName())
+                && !section.isAllowNesting()) {
+                continue;
+            }
             Matcher m = section.getSectionStartPattern().matcher(text.getText().trim());
             if (m.matches()) {
                 pushSection(text, m, section);
