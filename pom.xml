@@ -29,7 +29,7 @@ THE SOFTWARE.
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>4.88</version>
+        <version>5.7</version>
         <relativePath />
     </parent>
 
@@ -42,8 +42,8 @@ THE SOFTWARE.
         <changelist>-SNAPSHOT</changelist>
         <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
         <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
-        <jenkins.baseline>2.440</jenkins.baseline>
-        <jenkins.version>${jenkins.baseline}.3</jenkins.version>
+        <jenkins.baseline>2.479</jenkins.baseline>
+        <jenkins.version>${jenkins.baseline}.1</jenkins.version>
         <node.version>20.18.0</node.version>
         <npm.version>10.9.0</npm.version>
         <maven.test.failure.ignore>false</maven.test.failure.ignore>
@@ -81,7 +81,7 @@ THE SOFTWARE.
         <connection>scm:git:https://github.com/${gitHubRepo}.git</connection>
         <developerConnection>scm:git:git@github.com:${gitHubRepo}.git</developerConnection>
         <url>https://github.com/${gitHubRepo}</url>
-        <tag>collapsing-console-sections-1.10.0</tag>
+        <tag>${scmTag}</tag>
     </scm>
 
     <dependencyManagement>
@@ -89,7 +89,7 @@ THE SOFTWARE.
             <dependency>
                 <groupId>io.jenkins.tools.bom</groupId>
                 <artifactId>bom-${jenkins.baseline}.x</artifactId>
-                <version>3435.v238d66a_043fb_</version>
+                <version>3893.v213a_42768d35</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

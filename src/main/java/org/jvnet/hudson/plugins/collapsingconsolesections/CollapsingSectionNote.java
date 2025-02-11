@@ -40,7 +40,7 @@ import org.kohsuke.accmod.Restricted;
 import org.kohsuke.accmod.restrictions.NoExternalUse;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
-import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerRequest2;
 
 /**
  *
@@ -165,7 +165,7 @@ public class CollapsingSectionNote extends ConsoleNote {
           
         @Override
         @SuppressWarnings("unchecked") // cast to T[]
-        public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
+        public boolean configure(StaplerRequest2 req, JSONObject json) throws FormException {
             setSections(req.bindJSONToList(clazz, json.get("consolesection")).toArray((CollapsingSectionNote[]) Array.newInstance(clazz, 0)));
             numberingEnabled = json.getBoolean("numberingEnabled");
             configuration = new CollapsingSectionsConfiguration(sections, numberingEnabled);
