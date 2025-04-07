@@ -24,25 +24,26 @@
 package org.jvnet.hudson.plugins.collapsingconsolesections;
 
 import org.apache.commons.lang.SerializationUtils;
-import org.junit.Test;
-import org.jvnet.hudson.test.Bug;
+import org.junit.jupiter.api.Test;
+import org.jvnet.hudson.test.Issue;
 
 /**
- * Tests {@linl CollapsingSectionAnnotator}
+ * Tests {@link CollapsingSectionAnnotator}
  * @author Oleg Nenashev
  * @since 1.4.1
  */
-public class CollapsingSectionAnnotatorTest {
+class CollapsingSectionAnnotatorTest {
+
     @Test
-    @Bug(20304)
-    public void testSerialization() {
+    @Issue("JENKINS-20304")
+    void testSerialization() {
         // Prepare data
         CollapsingSectionsConfiguration config = new CollapsingSectionsConfiguration(
                 new CollapsingSectionNote[] {
-                  new CollapsingSectionNote("test", "test", "test", true)}
+                  new CollapsingSectionNote("test", "test", "test", true, false)}
                 ,true);
         CollapsingSectionAnnotator annotator = new CollapsingSectionAnnotator(config);
-        
+
         // Try to serialize
         SerializationUtils.serialize(annotator);
     }

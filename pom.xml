@@ -57,7 +57,7 @@ THE SOFTWARE.
         <license>
             <name>MIT license</name>
             <comments>All source code is under the MIT license.</comments>
-            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <url>https://www.opensource.org/licenses/mit-license.php</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -70,7 +70,7 @@ THE SOFTWARE.
         <developer>
             <id>oleg_nenashev</id>
             <name>Oleg Nenashev</name>
-            <email>o.v.nenashev@gmail.com</email>           			
+            <email>o.v.nenashev@gmail.com</email>
             <roles>
                 <role>maintainer</role>
             </roles>
@@ -84,40 +84,20 @@ THE SOFTWARE.
         <tag>${scmTag}</tag>
     </scm>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-${jenkins.baseline}.x</artifactId>
-                <version>3893.v213a_42768d35</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <repositories>
+        <repository>
+            <id>repo.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/public/</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repo.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+</project>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.jenkins-ci.plugins</groupId>
-            <artifactId>timestamper</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-  <repositories> 
-    <repository>
-      <id>repo.jenkins-ci.org</id>
-      <url>https://repo.jenkins-ci.org/public/</url>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>repo.jenkins-ci.org</id>
-      <url>https://repo.jenkins-ci.org/public/</url>
-    </pluginRepository>
-  </pluginRepositories>
-</project>  
-  
 
 
 
