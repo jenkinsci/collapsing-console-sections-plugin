@@ -29,11 +29,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function generateOutlineSection(sectionElt) {
+        // give section a unique ID for the target link
         var id = "console-section-" + (iota++);
-        // add target link in output log
-        var targetLink = document.createElement("a");
-        targetLink.name = id;
-        sectionElt.prepend(targetLink);
+        sectionElt.id = id;
 
         // create outline element
         var collapseHeader = sectionElt.querySelector("summary.collapseHeader");
@@ -41,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var elt = document.createElement("li");
         listElt.appendChild(elt);
 
+        // add target link in the outline
         var link = document.createElement("a");
         link.href = "#" + id;
         link.textContent = justtext(collapseHeader);
