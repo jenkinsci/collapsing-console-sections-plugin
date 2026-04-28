@@ -39,9 +39,11 @@ class CollapsingSectionAnnotatorTest {
     void testSerialization() {
         // Prepare data
         CollapsingSectionsConfiguration config = new CollapsingSectionsConfiguration(
-                new CollapsingSectionNote[] {
-                  new CollapsingSectionNote("test", "test", "test", true, false)}
-                ,true);
+            new CollapsingSectionNote[] {
+                new CollapsingSectionNote("test", "test", "test", true, false)
+            }
+            ,true
+        );
         CollapsingSectionAnnotator annotator = new CollapsingSectionAnnotator(config);
 
         // Try to serialize

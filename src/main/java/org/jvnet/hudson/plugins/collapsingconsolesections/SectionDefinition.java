@@ -86,7 +86,10 @@ public class SectionDefinition implements Serializable {
             for (int i = 0; i <= m.groupCount(); i++) {
                 final String group = m.group(i);
                 if (group != null) {
-                    result = result.replaceAll("\\{" + i + "\\}", group);
+                    result = result.replaceAll(
+                        "\\{" + i + "\\}",
+                        Matcher.quoteReplacement(group)
+                    );
                 } else {
                     result = result.replaceAll("\\{" + i + "\\}", "");
                 }

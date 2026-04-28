@@ -35,33 +35,33 @@ import java.util.regex.Matcher;
 import javax.annotation.Nonnull;
 
 public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
-    
+
     @Nonnull
     private List<SectionDefinition> sections;
-    
+
     @Nonnull
     private Stack<SectionDefinition> currentSections;
-    
+
     @Nonnull
     private Stack<StackLevel> numberingStack;
-    
+
     @Nonnull
     private CollapsingSectionsConfiguration configs;
 
     public CollapsingSectionAnnotator(@Nonnull CollapsingSectionsConfiguration configs) {
         this.configs = configs;
-        this.sections = Arrays.asList(configs.getSectionDefinitions());       
+        this.sections = Arrays.asList(configs.getSectionDefinitions());
         this.currentSections = new Stack<SectionDefinition>();
         this.numberingStack = new Stack<StackLevel>();
         numberingStack.add(new StackLevel());
     }
-    
+
     @Override
     public ConsoleAnnotator annotate(Object context, MarkupText text) {
         if (!(context instanceof Run)) {
             return null;
         }
-        
+
         while (!currentSections.empty()) {
             SectionDefinition currentSection = currentSections.peek();
             if (currentSection.getSectionEndPattern().matcher(text.getText().trim()).matches()) {
@@ -82,7 +82,7 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
         }
         return this;
     }
-    
+
     /**
      * Generates level prefix for further display.
      * @return LEVEL_MARKER for each upper level
@@ -123,17 +123,17 @@ public class CollapsingSectionAnnotator extends ConsoleAnnotator<Object> {
         currentSections.pop();
         numberingStack.pop();
     }
-    
+
     /**Enumerates stack levels for the numbering*/
     private static class StackLevel implements Serializable {
         int counter = 0;
-        
+
         public void increment() {
             counter++;
         }
 
         public int getCounter() {
             return counter;
-        }    
+        }
     }
 }

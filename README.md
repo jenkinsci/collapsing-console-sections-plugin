@@ -19,7 +19,7 @@ Simply use {`1`}, {`2`}, and so forth in the place where you want to insert the 
 
 ![](docs/images/collapsing-console-config.png)
 
-In the below example an text following the occurance of the word `STARTING ` in the logs will be used as the Section Name. 
+In the below example an text following the occurance of the word `STARTING ` in the logs will be used as the Section Name.
 
 ![](docs/images/wilcard-reference-config.png)
 

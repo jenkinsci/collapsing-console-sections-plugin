@@ -32,21 +32,21 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 /**
- * Provides a serializable instance of collapsing sections global configs. 
+ * Provides a serializable instance of collapsing sections global configs.
  * @author Oleg Nenashev
  * @since 1.4.1
  */
 public class CollapsingSectionsConfiguration implements Serializable {
-    
+
     @Nonnull
     private CollapsingSectionNote[] sections;
     private final boolean numberingEnabled;
-   
+
     public CollapsingSectionsConfiguration(@CheckForNull CollapsingSectionNote[] sections, boolean numberingEnabled) {
         this.sections = sections != null ? Arrays.copyOf(sections, sections.length) : new CollapsingSectionNote[0];
         this.numberingEnabled = numberingEnabled;
     }
-    
+
     @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE", justification = "Migration logic")
     private Object readResolve() {
         if (sections == null) {
@@ -63,7 +63,7 @@ public class CollapsingSectionsConfiguration implements Serializable {
     public CollapsingSectionNote[] getSections() {
         return Arrays.copyOf(sections, sections.length);
     }
-    
+
     @Nonnull
     public SectionDefinition[] getSectionDefinitions() {
         CollapsingSectionNote[] configs = getSections();

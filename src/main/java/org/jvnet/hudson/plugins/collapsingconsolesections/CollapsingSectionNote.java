@@ -47,7 +47,7 @@ import org.kohsuke.stapler.StaplerRequest2;
  * @author dty
  */
 public class CollapsingSectionNote extends ConsoleNote {
-    
+
     @Nonnull
     private String sectionDisplayName;
     @Nonnull
@@ -112,7 +112,7 @@ public class CollapsingSectionNote extends ConsoleNote {
 
     @Extension
     public static final class DescriptorImpl extends ConsoleAnnotationDescriptor {
-        
+
         @CheckForNull
         private CollapsingSectionNote[] sections;
         private boolean numberingEnabled;
@@ -123,7 +123,7 @@ public class CollapsingSectionNote extends ConsoleNote {
         public DescriptorImpl() {
             load();
         }
-        
+
         @Override
         public String getDisplayName() {
             return "Console Section";
@@ -150,7 +150,7 @@ public class CollapsingSectionNote extends ConsoleNote {
         public boolean isNumberingEnabled() {
             return numberingEnabled;
         }
-        
+
         @Nonnull
         public CollapsingSectionsConfiguration getConfiguration() {
             return configuration;
@@ -162,7 +162,7 @@ public class CollapsingSectionNote extends ConsoleNote {
             // Enable configuration cache
             configuration = new CollapsingSectionsConfiguration(sections, numberingEnabled);
         }
-          
+
         @Override
         @SuppressWarnings("unchecked") // cast to T[]
         public boolean configure(StaplerRequest2 req, JSONObject json) throws FormException {
@@ -170,10 +170,10 @@ public class CollapsingSectionNote extends ConsoleNote {
             numberingEnabled = json.getBoolean("numberingEnabled");
             configuration = new CollapsingSectionsConfiguration(sections, numberingEnabled);
             save();
-            
+
             return true;
         }
-        
+
         @Restricted(NoExternalUse.class)
         public FormValidation doCheckSectionStartPattern(@QueryParameter String sectionStartPattern) {
             try {
@@ -183,10 +183,10 @@ public class CollapsingSectionNote extends ConsoleNote {
             }
             return FormValidation.ok();
         }
-        
+
         @Restricted(NoExternalUse.class)
         public FormValidation doCheckSectionEndPattern(@QueryParameter String sectionEndPattern) {
             return doCheckSectionStartPattern(sectionEndPattern);
         }
-     }
+    }
 }

@@ -61,6 +61,16 @@ class SectionDefinitionTest {
         assertEquals("Section Heading https svn.dev.java.net https", def.getSectionDisplayName(m));
     }
 
+    /**
+     * @see <a href="https://phabricator.wikimedia.org/T420347">https://phabricator.wikimedia.org/T420347</a>
+     */
+    @Test
+    void testGroupCaptureHandlesSpecialCharacters() {
+        SectionDefinition def = new SectionDefinition("Command: {1}", "Spawning (.*)", "", false, false);
+        Matcher m = def.getSectionStartPattern().matcher("Spawning cd $FOO && git grep \\-");
+        assertEquals("Command: cd $FOO && git grep \\-", def.getSectionDisplayName(m));
+    }
+
     @Test
     void testMavenPluginDefinition() {
         testMavenMojoPlugin("[INFO] --- maven-jar-plugin:2.3.1:jar (default-jar) @ sardine ---", "jar:jar");
