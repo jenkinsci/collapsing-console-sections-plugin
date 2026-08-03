@@ -23,7 +23,8 @@
  */
 package org.jvnet.hudson.plugins.collapsingconsolesections;
 
-import org.apache.commons.lang.SerializationUtils;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.Issue;
 
@@ -36,7 +37,7 @@ class CollapsingSectionAnnotatorTest {
 
     @Test
     @Issue("JENKINS-20304")
-    void testSerialization() {
+    void testSerialization() throws Exception {
         // Prepare data
         CollapsingSectionsConfiguration config = new CollapsingSectionsConfiguration(
             new CollapsingSectionNote[] {
@@ -47,6 +48,8 @@ class CollapsingSectionAnnotatorTest {
         CollapsingSectionAnnotator annotator = new CollapsingSectionAnnotator(config);
 
         // Try to serialize
-        SerializationUtils.serialize(annotator);
+        try (ObjectOutputStream out = new ObjectOutputStream(new ByteArrayOutputStream())) {
+            out.writeObject(annotator);
+        }
     }
 }

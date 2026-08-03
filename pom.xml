@@ -49,6 +49,7 @@ THE SOFTWARE.
         <ban-junit4-imports.skip>false</ban-junit4-imports.skip>
         <maven.test.failure.ignore>false</maven.test.failure.ignore>
         <frontend.testFailureIgnore>${maven.test.failure.ignore}</frontend.testFailureIgnore>
+        <ban-commons-lang-2.skip>false</ban-commons-lang-2.skip>
     </properties>
 
     <name>Jenkins Collapsing Console Sections Plugin</name>
