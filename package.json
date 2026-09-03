@@ -12,15 +12,15 @@
     "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix"
   },
   "devDependencies": {
-    "@eslint/js": "^9.13.0",
-    "@stylistic/eslint-plugin": "^2.9.0",
-    "eslint": "^9.13.0",
-    "eslint-formatter-checkstyle": "^8.40.0",
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "eslint": "^10.9.1",
+    "eslint-formatter-checkstyle": "^9.0.0",
     "eslint-formatter-multiple": "^2.0.0",
-    "globals": "^15.11.0",
-    "stylelint": "^16.10.0",
-    "stylelint-checkstyle-reporter": "^1.0.0",
-    "stylelint-config-standard": "^36.0.1"
+    "globals": "^17.12.0",
+    "stylelint": "^17.14.0",
+    "stylelint-checkstyle-reporter": "^1.1.0",
+    "stylelint-config-standard": "^40.0.0"
   },
   "eslint-formatter-multiple": {
     "formatters": [
